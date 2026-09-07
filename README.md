@@ -106,7 +106,7 @@ NYCH is used by other research/runtime work in this GitHub account, including MG
 
 Related public repositories:
 
-- TCTA: https://github.com/nhartman000/TCTA-
+- TCTA: https://github.com/nhartman000/TCTA
 - MG8: https://github.com/nhartman000/mg8
 - MG8 reference runtime: https://github.com/nhartman000/mg8-engine
 
