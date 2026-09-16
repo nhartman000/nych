@@ -76,6 +76,15 @@ from nych.types import (
 from nych.validation import validate_continuity, validate_result
 
 
+class _NoMGateResult:
+    """Minimal stand-in for GateExecutionResult when MGate is disabled."""
+    __slots__ = ("candidate", "new_state")
+    
+    def __init__(self, candidate: Any, new_state: dict[str, Any]) -> None:
+        self.candidate = candidate
+        self.new_state = new_state
+
+
 @dataclass(frozen=True)
 class PipelineConfig:
     """Configuration for the NYCH pipeline."""
@@ -90,6 +99,7 @@ class PipelineConfig:
     enable_oka: bool = False
     enable_machine_b: bool = True
     enable_memory_persistence: bool = True
+    enable_mgate: bool = True
     congruence_loop_interval: int = 5
 
 
@@ -232,25 +242,35 @@ def run_pipeline(
     
     # Stage 10-11: THREE-GATE MGATE + BACKTRACK
     # Per white paper §12-§14: hierarchical trajectory search with backtracking
-    mgate_results, final_state, action_permit, backtrack_count = _mgate_stage(
-        mgate_orchestrator,
-        selection.selected,
-        constraint_mask.admissible_candidates,
-        context,
-        packet,
-        state,
-        config.max_backtrack_steps,
-    )
+    if config.enable_mgate:
+        mgate_results, final_state, action_permit, backtrack_count = _mgate_stage(
+            mgate_orchestrator,
+            selection.selected,
+            constraint_mask.admissible_candidates,
+            context,
+            packet,
+            state,
+            config.max_backtrack_steps,
+        )
+    else:
+        # No MGate: advance with selected candidate directly
+        mgate_results = []
+        final_state = selection.selected.output_state
+        action_permit = None
+        backtrack_count = 0
     metrics["mgate_time"] = time.time() - start_time - sum(metrics.values())
     
-    if not mgate_results or not any(r.passed for r in mgate_results):
+    if config.enable_mgate and (not mgate_results or not any(r.passed for r in mgate_results)):
         raise TOTEError(
             f"All candidates failed MGate validation after {backtrack_count} backtrack steps. "
             f"Gate failures: {[r.backtrack_reason for r in mgate_results if not r.passed]}"
         )
     
-    # Take the first successful result
-    successful_result = next(r for r in mgate_results if r.passed)
+    # Take the first successful result (or construct one when MGate is disabled)
+    if config.enable_mgate:
+        successful_result = next(r for r in mgate_results if r.passed)
+    else:
+        successful_result = _NoMGateResult(selection.selected, final_state)
     
     # Stage 12: CONTINUITY VALIDATION
     prior_state = state
