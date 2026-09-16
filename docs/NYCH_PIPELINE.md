@@ -1,0 +1,71 @@
+# NYCH Pipeline
+
+**American Milestone Inc. | Nicholas Hartman | Current synthesis: August 2026**
+
+## 1. Objective
+
+Build one cohesive NYCH pipeline with explicit typed boundaries. Do not duplicate the same concept across multiple modules under different names. The implementation must accept either language or sensor input, normalize both into a shared NYCH packet/state model, constrain the action/state space, run admissible reasoning/execution, validate the result, and emit canonical evidence.
+
+## 2. Required Pipeline
+
+1. **INGEST**: accept NaturalLanguageInput | SensorInput | ExistingSymbolicPacket.
+2. **IDENTITY / VERNACULAR**: for language, determine speaker/narrative perspective and vernacular context where evidence supports it; for sensor streams, bind source/device identity and modality metadata.
+3. **FEATURE NORMALIZATION**: preserve numbers; convert sensor patterns to typed gestalts; remove non-semantic language filler only under explicit rules.
+4. **INVARIANT EXTRACTION**: modality, person, tense, cognitive/control operators, domain markers.
+5. **SYMBOLIZATION**: select deterministic semantic anchor from a versioned symbol table/model; produce consonant skeleton for lexical payload where applicable.
+6. **CONTEXT BUILD**: construct Domain + Subject + Intent + Competency + available objects/tools + prior/current internal/external state.
+7. **DOMAIN EXPANSION**: Domain -> Discipline -> Function -> Technique -> TOTE candidate loops.
+8. **INVERSE TRANSFORM / CONSTRAINT MASK**: reject candidates outside domain, capability, competency, physical/state constraints, policy, or declared admissibility rules.
+9. **CANDIDATE SELECTION**: deterministic selector where possible; probabilistic model may rank/propose only within the admissible boundary.
+10. **TOTE EXECUTION**: Test -> Operate -> Test -> Exit with bounded steps and fail-closed behavior.
+11. **CONTINUITY VALIDATION**: compare prior/current state, internal/external state, operator legality, domain continuity and loop integrity.
+12. **FAST/SLOW PATH**: stable state uses compressed representation; anomaly expands metadata and invokes deeper verification.
+13. **EVIDENCE EMISSION**: emit canonical QSON-compatible events and update GST-compatible state.
+14. **PACKAGE/RETURN**: expose result through MG8 without inventing competing schemas.
+
+## 3. Proposed Typed Data Contracts
+
+Kilo should translate these conceptual contracts into the project language and existing canonical schemas rather than blindly copying field names if canonical repository definitions differ.
+
+| Type | Required conceptual fields |
+|------|---------------------------|
+| NychPacket | packet_id, version, source_type, symbols, operators, numeric_values, metadata_refs |
+| NychContext | domain, subject, intent, competency, modality, perspective, tense, tools, constraints |
+| NychState | prior, current, internal_prior, internal_current, external_prior, external_current, continuity_reference |
+| CandidateTransform | transform_id, input_state, output_state, technique, tote, admissibility_evidence, score |
+| ValidationResult | valid, reasons, anomaly_flags, continuity_score, closure_state |
+| AuditUnit | unit_id, source_refs, state_refs, transform_ref, metrics, hashes/version identifiers |
+
+## 4. Determinism Rules
+
+- Version every symbol table, embedding/similarity model, operator lexicon and rule set.
+- Never claim independent-machine convergence unless identical model/version/tie-break rules are fixed.
+- Every nondeterministic model call must be outside the deterministic validation boundary and its output treated as a proposal.
+- Tie-breaking must be explicit and stable.
+- No hidden prompt-only state: material state belongs in typed state/context objects.
+- All loops are bounded; absence of an admissible continuation fails closed.
+
+## 5. Fast / Slow Path Contract
+
+Fast path operates on operators, semantic anchors, loop markers, domain markers and compact state identifiers. Slow path is triggered by domain drift, grammar/operator mismatch, unexpected symbolic sequence, continuity failure, low confidence, or loop-integrity failure. Slow path expands lexical/semantic metadata and may invoke a probabilistic reasoning engine, but the returned proposal must re-enter deterministic validation.
+
+## 6. State-Continuity Contract
+
+Do not model GST as a flat mutable dictionary only. A transition must advance chronology explicitly: previous current becomes prior, new observation/result becomes current, and internal/external channels advance independently. Preserve the continuity reference/0,0 concept as an explicit optional field or typed marker so its semantics can be tested rather than inferred.
+
+## 7. Testing Requirements
+
+- **Golden-vector tests**: identical input + versions => identical symbolic packet.
+- **Collision tests** for consonant skeletons and semantic anchors.
+- **Domain/inverse-transform tests** proving rejected actions cannot execute.
+- **Competency boundary tests**.
+- **TOTE boundedness and fail-closed tests**.
+- **Fast-to-slow anomaly transition tests**.
+- **State chronology tests** for prior/current and internal/external advancement.
+- **Cross-repository schema tests**: emitted QSON validates against canonical QSON; GST/G8SON/MG8 inputs validate against canonical schemas.
+- **Property tests**: selectors cannot inject non-admissible transforms.
+- **Benchmark harness** for token/byte reduction, latency, compute, fidelity and reconstruction equivalence.
+
+## 8. Definition of Done
+
+The pipeline is cohesive when there is one canonical data flow, one canonical state transition path, no duplicate NYCH runtimes competing for authority, canonical schema validation occurs at repository boundaries, all probabilistic calls are contained inside deterministic constraints, and end-to-end tests prove Language -> NYCH -> Context -> Constraint -> TOTE/Reasoning -> Validation -> GST/QSON evidence.
