@@ -580,6 +580,11 @@ class MGateOrchestrator:
             if outcome == GateOutcome.UNKNOWN:
                 # Cannot satisfy - explicit UNKNOWN
                 current_gate.state = "UNKNOWN"
+                gate_instance.state = "UNKNOWN"
+                gate_instance.last_outcome = GateOutcome.UNKNOWN
+                gate_instance.reasons = reasons
+                gate_instance.history = current_gate.history
+                gate_instance.iteration = iteration
                 return current_gate
             
             if outcome == GateOutcome.FAIL:
@@ -589,6 +594,11 @@ class MGateOrchestrator:
             if outcome == GateOutcome.PASS:
                 # Exit criterion met
                 current_gate.state = "EXIT"
+                gate_instance.state = "EXIT"
+                gate_instance.last_outcome = GateOutcome.PASS
+                gate_instance.reasons = reasons
+                gate_instance.history = current_gate.history
+                gate_instance.iteration = iteration
                 return current_gate
             
             # OPERATE phase
@@ -600,6 +610,11 @@ class MGateOrchestrator:
         current_gate.state = "FAIL"
         current_gate.last_outcome = GateOutcome.FAIL
         current_gate.reasons = [f"max_iterations_exceeded: {gate_def.max_iterations}"]
+        gate_instance.state = "FAIL"
+        gate_instance.last_outcome = GateOutcome.FAIL
+        gate_instance.reasons = current_gate.reasons
+        gate_instance.history = current_gate.history
+        gate_instance.iteration = gate_def.max_iterations - 1
         return current_gate
     
     def _operate_gate(
