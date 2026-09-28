@@ -1,5 +1,7 @@
 import argparse
+import json
 from nych.lexicon import LEXICON
+from nych.semantic_encoding import audit_summary, encode_text
 from nych.visualizer import NychVisualizer
 
 
@@ -24,6 +26,29 @@ def cmd_visualize(args):
         viz.show()
 
 
+def _sense_bindings(values):
+    result = {}
+    for value in values or []:
+        try:
+            position, sense_id = value.split("=", 1)
+            result[int(position)] = sense_id
+        except (ValueError, TypeError) as exc:
+            raise SystemExit(f"invalid --sense {value!r}; expected POSITION=SENSE_ID") from exc
+    return result
+
+
+def cmd_encode(args):
+    encoded, records = encode_text(
+        args.text,
+        sense_choices=_sense_bindings(args.sense),
+        registry_path=args.registry,
+        enable_spans=not args.no_spans,
+    )
+    payload = {"original": args.text, "encoded": encoded, "records": records,
+               "audit": audit_summary(records)}
+    print(json.dumps(payload, ensure_ascii=False, indent=2) if args.json else encoded)
+
+
 def main():
     parser = argparse.ArgumentParser(prog="nych")
     sub = parser.add_subparsers(dest="command")
@@ -36,6 +61,15 @@ def main():
     vis_p.add_argument("--show", action="store_true")
     vis_p.set_defaults(func=cmd_visualize)
 
+    encode_p = sub.add_parser("encode", help="sense-first semantic encoding")
+    encode_p.add_argument("text")
+    encode_p.add_argument("--sense", action="append", default=[],
+                          help="explicit zero-based POSITION=SENSE_ID binding")
+    encode_p.add_argument("--registry", default=None, help="alternate registry JSON")
+    encode_p.add_argument("--no-spans", action="store_true", help="disable multiword Gestalts")
+    encode_p.add_argument("--json", action="store_true", help="include records and audit")
+    encode_p.set_defaults(func=cmd_encode)
+
     args = parser.parse_args()
 
     if not hasattr(args, "func"):
@@ -43,3 +77,7 @@ def main():
         return
 
     args.func(args)
+
+
+if __name__ == "__main__":
+    main()
