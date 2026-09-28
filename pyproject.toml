@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nych"
-version = "0.1.0"
-description = "NYCH deterministic symbolic language and visualization substrate"
+version = "0.2.0"
+description = "NYCH symbolic substrate with an executable canonical MG8 reference profile"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
@@ -17,7 +17,8 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["nych"]
+packages = ["nych", "nych_mg8"]
 
 [project.scripts]
 nych = "nych.cli:main"
+nych-mg8 = "nych_mg8.cli:main"

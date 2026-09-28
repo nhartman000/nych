@@ -60,6 +60,26 @@ addressed symbolic trace
 
 The current implementation is intentionally small and should not be read as a claim that ordinal position is the only possible NYCH dimensional transform.
 
+## MG8 reference-profile integration
+
+Version 0.2.0 adds the `nych_mg8` package without changing the existing
+`nych` locality package. It provides:
+
+- canonical `.mg8`, `.gst`, `.g8son`, `.ork`, and `.qson` structures;
+- separate canonical-interchange and deterministic-reference validators;
+- secure manifest-relative resource resolution;
+- executable ordered `flow.ork` unit orchestration;
+- runtime-authoritative `PASS`/`FAIL`/`INTERMEDIATE` evaluation;
+- state commitment only after a candidate passes its gate;
+- QSON run, trace, and sequence consistency;
+- exact symbol-codec round trips and bounded nested TOTE components.
+
+The frozen NYCH modality classes are `👀` observe, `👁️🧠`
+imagine/remember/model, `🗯️` intention, and `💪` execute.
+
+This is a bounded unit-level reference profile. It does not yet claim complete
+`.mg8pk` composition or a universal ORK grammar.
+
 ## Boot lexicon
 
 `nych/lexicon.py` currently contains a **temporary boot lexicon** used to satisfy engine contracts. The source itself explicitly states that it is temporary and intended to be replaced by loaded/authoritative lexicon material.
@@ -88,6 +108,14 @@ To save a visualization:
 nych visualize --save nych.png
 ```
 
+To exercise the MG8 profile:
+
+```bash
+nych-mg8 encode "I went to the store to buy a hammer."
+nych-mg8 demo-gate --output-dir ./output
+nych-mg8 run ./output/unit.mg8 --trace-output ./output/trace/second-run.qson
+```
+
 ## Installation
 
 ```bash
@@ -98,7 +126,9 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e .
 ```
 
-The canonical packaging metadata is `pyproject.toml`.
+The canonical packaging metadata is `pyproject.toml`. The repository is
+copyrighted by Nicholas Hartman / American Milestone Inc.; no software license
+is implied unless the copyright holder adds one.
 
 ## Repository boundaries
 
