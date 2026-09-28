@@ -1,6 +1,6 @@
 # NYCH
 
-**NYCH** is Nicholas Hartman's symbolic language / locality research substrate. The current public Python package implements a small, inspectable foundation for symbolic glyphs, address-space placement, sequence encoding, lexicon lookup, plugin hooks, and visualization.
+**NYCH** is Nicholas Hartman's symbolic language / locality research substrate. The public Python package implements an inspectable foundation for symbolic glyphs, address-space placement, sequence encoding, sense-first semantic encoding, multiword Gestalt compression, lexicon lookup, plugin hooks, and visualization.
 
 > **Implementation status:** this repository is a minimal software substrate, not a complete executable specification of every NYCH concept developed elsewhere. The code currently present should be treated as the authority for what this package actually implements.
 
@@ -17,6 +17,9 @@ The package currently contains modules for:
 - plugin API / plugin loading support;
 - storage helpers;
 - 3D visualization of NYCH locality.
+- a persistent sense/Gestalt registry;
+- explicit sense selection with auditable fallback resolution;
+- longest-first multiword Gestalt matching with protected invariants.
 
 The package metadata describes the project as a **deterministic symbolic language and visualization substrate**.
 
@@ -82,6 +85,43 @@ nych visualize
 
 opens the locality visualizer.
 
+Sense-first semantic encoding is available directly from the CLI:
+
+```bash
+nych encode "the unit test repair preserved the test suite"
+nych encode "the river bank closed my account" \
+  --sense 2=finance.bank.institution --json
+```
+
+`--sense POSITION=SENSE_ID` is repeatable and uses zero-based token positions.
+An explicit sense always has higher authority than contextual cue matching. Use
+`--no-spans` to disable multiword Gestalts or `--registry PATH` to test an
+alternate registry.
+
+## Sense registry and Gestalt spans
+
+`nych/data/sense_registry.json` is the installed seed registry. It currently
+contains 14 distinct senses and 11 curated multiword Gestalts. Stable semantic
+IDs are separate from display glyphs so a glyph can change without changing
+the meaning identifier.
+
+`nych.semantic_encoding.encode_text()` resolves in this order:
+
+1. explicit caller-supplied sense;
+2. longest registered non-overlapping Gestalt span;
+3. unambiguous surface form;
+4. contextual cue match;
+5. honest unresolved/default fallback.
+
+Every result records its resolution method. Multiword records also retain the
+canonical expression and protected invariants. `audit_summary()` reports source
+word count, compressed semantic-unit count, method counts, and the fraction of
+the source that depended on guessing.
+
+This is deterministic registry matching, not semantic understanding. Registry
+coverage is deliberately small, cue matching only considers immediate
+neighbors, and unresolved ambiguity is not presented as certainty.
+
 To save a visualization:
 
 ```bash
@@ -99,6 +139,12 @@ pip install -e .
 ```
 
 The canonical packaging metadata is `pyproject.toml`.
+
+Run the test suite with:
+
+```bash
+python -m unittest discover -s tests -p "test_*.py"
+```
 
 ## Repository boundaries
 
