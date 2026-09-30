@@ -122,6 +122,36 @@ This is deterministic registry matching, not semantic understanding. Registry
 coverage is deliberately small, cue matching only considers immediate
 neighbors, and unresolved ambiguity is not presented as certainty.
 
+## Vernacular competency and domain classification
+
+`nych.competency` classifies which sensory modality an utterance's language
+leans on and which subject-matter domain its vocabulary belongs to, then
+scores how fluently it uses that domain's vernacular:
+
+```bash
+nych analyze "the recursion feels off, the buffer looks wrong"
+```
+
+```json
+{
+  "text": "the recursion feels off, the buffer looks wrong",
+  "modality": "KINESTHETIC_INTERNAL",
+  "modality_score": 1,
+  "domain": "COMPUTER_SCIENCE",
+  "domain_score": 2,
+  "competency": 9
+}
+```
+
+This is intended as a step that can run *before* semantic encoding in a
+larger pipeline — e.g. an MG8 gate runtime that routes or scores a gate
+based on the speaker's domain and competency before the text is Gestalt-
+encoded. Same honesty bar as the rest of this package: it's a small,
+hand-built keyword lexicon (modality marker phrases, domain jargon lists,
+hedge words), not a trained classifier, and it reports `"UNRESOLVED"` with
+a `None` competency rather than forcing a guess when nothing in the text
+matches its lexicon — most ordinary sentences will land there for domain.
+
 To save a visualization:
 
 ```bash
