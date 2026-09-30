@@ -8,6 +8,7 @@ version = "0.2.0"
 description = "NYCH deterministic symbolic language and visualization substrate"
 readme = "README.md"
 requires-python = ">=3.10"
+license = { text = "MIT" }
 authors = [
     { name = "Nicholas Hartman" }
 ]
