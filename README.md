@@ -161,3 +161,8 @@ Related public repositories:
 Generated virtual environments, Python bytecode, build metadata, and visualization output are not source artifacts and are excluded by `.gitignore`.
 
 A virtual environment had previously been committed to this repository. The current-tree cleanup removes it from active source control; historical Git objects may still contribute to repository size until a deliberate history-cleaning operation is performed.
+
+## License
+
+MIT — see [LICENSE](LICENSE). No restriction on commercial use; the intent is
+wide adoption.
