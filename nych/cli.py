@@ -3,6 +3,7 @@ import json
 from nych.competency import analyze_utterance
 from nych.lexicon import LEXICON
 from nych.semantic_encoding import audit_summary, encode_text
+from nych.state_roles import tag_roles
 from nych.visualizer import NychVisualizer
 
 
@@ -55,6 +56,10 @@ def cmd_analyze(args):
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
+def cmd_parse(args):
+    print(json.dumps(tag_roles(args.text), ensure_ascii=False, indent=2))
+
+
 def main():
     parser = argparse.ArgumentParser(prog="nych")
     sub = parser.add_subparsers(dest="command")
@@ -81,6 +86,12 @@ def main():
     )
     analyze_p.add_argument("text")
     analyze_p.set_defaults(func=cmd_analyze)
+
+    parse_p = sub.add_parser(
+        "parse", help="pre-Gestalt state-role tagging (action/enumerator/object/tense/state)"
+    )
+    parse_p.add_argument("text")
+    parse_p.set_defaults(func=cmd_parse)
 
     args = parser.parse_args()
 

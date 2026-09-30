@@ -152,6 +152,40 @@ hedge words), not a trained classifier, and it reports `"UNRESOLVED"` with
 a `None` competency rather than forcing a guess when nothing in the text
 matches its lexicon — most ordinary sentences will land there for domain.
 
+## Pre-Gestalt state-role tagging
+
+`nych.state_roles` runs *before* semantic encoding and before
+domain/competency are used for anything: given a raw sentence, it tags
+which word or phrase fills each role in a minimal state-representation
+schema — `action`, `enumerator`, `object`, `tense` (a relational-time
+marker like "after"/"before", distinct from the verb's own grammatical
+tense), and `state` (the value the tense marker relates to):
+
+```bash
+nych parse "Re-ran both test suites after changes"
+```
+
+```json
+{
+  "action": {"word": "Re-ran", "position": 0, "lemma": "run"},
+  "enumerator": {"word": "both", "position": 1},
+  "object": {"word": "test suites", "start": 2, "end": 4},
+  "tense": {"word": "after", "position": 4},
+  "state": {"word": "changes", "start": 5, "end": 6}
+}
+```
+
+This is meant to feed a TOTE-loop database lookup (domain + subdomain +
+object/action → a known function or loop, e.g. against
+[T.O.T.E-loops](https://github.com/nhartman000/T.O.T.E-loops)) before
+falling back to the raw schema above when nothing matches — that lookup is
+**not implemented in this package**. Same honesty bar as everywhere else
+here: this is a small heuristic tagger over word lists (enumerators,
+relational-tense markers, a small irregular-verb table plus an -ed suffix
+rule), not a real dependency parser. A role that isn't found comes back as
+`None`, not a guess — e.g. a sentence with no relational-tense marker gets
+`"tense": null, "state": null` rather than an invented split.
+
 To save a visualization:
 
 ```bash
