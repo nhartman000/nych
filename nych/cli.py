@@ -1,5 +1,6 @@
 import argparse
 import json
+from nych.competency import analyze_utterance
 from nych.lexicon import LEXICON
 from nych.semantic_encoding import audit_summary, encode_text
 from nych.visualizer import NychVisualizer
@@ -49,6 +50,11 @@ def cmd_encode(args):
     print(json.dumps(payload, ensure_ascii=False, indent=2) if args.json else encoded)
 
 
+def cmd_analyze(args):
+    result = analyze_utterance(args.text)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 def main():
     parser = argparse.ArgumentParser(prog="nych")
     sub = parser.add_subparsers(dest="command")
@@ -69,6 +75,12 @@ def main():
     encode_p.add_argument("--no-spans", action="store_true", help="disable multiword Gestalts")
     encode_p.add_argument("--json", action="store_true", help="include records and audit")
     encode_p.set_defaults(func=cmd_encode)
+
+    analyze_p = sub.add_parser(
+        "analyze", help="vernacular-based modality/domain classification + competency score"
+    )
+    analyze_p.add_argument("text")
+    analyze_p.set_defaults(func=cmd_analyze)
 
     args = parser.parse_args()
 
