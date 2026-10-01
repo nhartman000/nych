@@ -12,8 +12,13 @@ Detection heuristics, disclosed at the same honesty bar as the rest of
 this package -- small hand-built lists and surface patterns, not NER:
 
     person      -- an honorific (Dr./Mr./Ms. ...) followed by capitalized
-                   words; or an adjacent pair of capitalized words that is
-                   not sentence-initial.
+                   words; or an adjacent pair of capitalized words, either
+                   mid-sentence or at sentence start when the first word
+                   isn't a common sentence opener ("The", "Then", ...).
+    possible_name -- a lone capitalized word mid-sentence ("emailed
+                   Maurice"). Also catches months, places, and product
+                   names; labelled separately so that over-protection is
+                   visible rather than presented as a confirmed person.
     scientific  -- a binomial pattern: a known genus (small list) or an
                    abbreviated genus ("E.") followed by a lowercase
                    species word.
@@ -21,8 +26,11 @@ this package -- small hand-built lists and surface patterns, not NER:
                    carrying a characteristic pharmaceutical suffix
                    (-cillin, -statin, -pril, -azepam, ...).
 
-These WILL miss names outside the lists/patterns and may occasionally
-over-protect (e.g. a capitalized pair that isn't a person). Over-protection
+Remaining known gap: a lone name that starts a sentence ("Maurice called")
+is indistinguishable from any capitalized sentence opener without a name
+list, so it is not protected. Lowercase names ("emailed maurice") are not
+caught either. These rules over-protect (months, places, products, a
+capitalized pair that isn't a person). Over-protection
 is the safe failure mode here: a word wrongly left literal loses nothing,
 while a protected term wrongly symbolized loses its referent.
 """
@@ -61,7 +69,23 @@ DRUG_SUFFIXES = (
     "mab", "nib", "vir", "gliptin", "glitazone", "setron", "triptan",
 )
 
+# Common sentence-opening words. A capitalized pair at sentence start whose
+# first word is one of these is not treated as a two-word name.
+SENTENCE_OPENERS = {
+    "the", "a", "an", "then", "after", "before", "when", "while", "if",
+    "this", "that", "these", "those", "we", "he", "she", "they", "it", "you",
+    "our", "my", "his", "her", "their", "its", "your", "yesterday", "today",
+    "tomorrow", "and", "but", "so", "also", "please", "ask", "tell", "email",
+    "emailed", "call", "called", "met", "meet", "send", "sent", "thanks",
+}
+
+_PRONOUN_I = {"i", "i'm", "i'd", "i'll", "i've"}
+
 _WORD_RE = re.compile(r"[A-Za-z][A-Za-z'.-]*")
+
+
+def _is_pronoun_i(core: str) -> bool:
+    return core.lower() in _PRONOUN_I
 
 
 def _core(token: str) -> str:
@@ -107,7 +131,9 @@ def find_protected(sentence: str) -> list[dict]:
             continue
 
         # scientific binomial: known or abbreviated genus + lowercase species
-        abbrev_genus = bool(re.fullmatch(r"[A-Z]\.?", tokens[i].rstrip(",;:")))
+        # The period is required: "E. coli" is a binomial, but "A dog" and
+        # "I re-ran" are not.
+        abbrev_genus = bool(re.fullmatch(r"[A-Z]\.", tokens[i].rstrip(",;:")))
         if (lower in GENERA or abbrev_genus) and i + 1 < len(cores):
             nxt = cores[i + 1]
             if nxt and nxt.islower():
@@ -129,12 +155,29 @@ def find_protected(sentence: str) -> list[dict]:
                 j += 1
             continue
 
-        # person: adjacent capitalized pair, not sentence-initial
-        if (i > 0 and _is_capitalized(core) and i + 1 < len(cores)
-                and _is_capitalized(cores[i + 1])
-                and cores[i - 1] and not tokens[i - 1].endswith((".", "!", "?"))):
-            protect(i, "person", "capitalized adjacent pair")
-            protect(i + 1, "person", "capitalized adjacent pair")
+        sentence_start = i == 0 or tokens[i - 1].endswith((".", "!", "?"))
+
+        # person: adjacent capitalized pair -- mid-sentence, or at sentence
+        # start when the first word isn't an ordinary sentence opener
+        # ("Nicholas Hartman fixed it" yes; "Then Maurice called" no --
+        # that falls through so "Maurice" is caught by the lone-word rule).
+        if (_is_capitalized(core) and not _is_pronoun_i(core)
+                and i + 1 < len(cores) and _is_capitalized(cores[i + 1])
+                and not (sentence_start and lower in SENTENCE_OPENERS)):
+            reason = ("capitalized pair at sentence start" if sentence_start
+                      else "capitalized adjacent pair")
+            protect(i, "person", reason)
+            protect(i + 1, "person", reason)
+            continue
+
+        # possible_name: a lone capitalized word mid-sentence. Catches
+        # single names ("emailed Maurice"), and will also catch months,
+        # places, and product names -- over-protection by design.
+        if (not sentence_start and _is_capitalized(core)
+                and not _is_pronoun_i(core) and lower not in HONORIFICS):
+            protect(i, "possible_name",
+                    "capitalized mid-sentence word (may be a name; "
+                    "over-protects by design)")
 
     return [records[i] for i in sorted(records)]
 

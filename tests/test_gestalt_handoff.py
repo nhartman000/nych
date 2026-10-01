@@ -29,10 +29,10 @@ class GestaltHandoffTests(unittest.TestCase):
     def test_modality_operators_always_included_and_invariant(self):
         h = build_handoff(SENTENCE)
         self.assertEqual(h["modality_operators"], MODALITY_OPERATORS)
-        self.assertIn(
-            "The four modality operators are invariant and are never remapped.",
-            h["discretion_rules"],
-        )
+        operator_rule = next(r for r in h["discretion_rules"]
+                             if "modality operators are invariant" in r)
+        self.assertIn("never remapped", operator_rule)
+        self.assertIn("never assigned to any other word", operator_rule)
         self.assertEqual(h["discretion_rules"], list(DISCRETION_RULES))
 
     def test_pinned_words_not_reopened(self):

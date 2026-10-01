@@ -49,6 +49,36 @@ class ProtectedTermTests(unittest.TestCase):
         # rule requires the capitalized genus form.
         self.assertEqual(words("the homo sapiens debate"), [])
 
+    def test_name_pair_at_sentence_start_protected(self):
+        recs = find_protected("Nicholas Hartman fixed the build")
+        self.assertEqual([r["word"] for r in recs], ["Nicholas", "Hartman"])
+        self.assertTrue(all(r["category"] == "person" for r in recs))
+
+    def test_sentence_opener_not_paired_into_a_name(self):
+        recs = find_protected("Then Maurice called about the build")
+        self.assertEqual([(r["word"], r["category"]) for r in recs],
+                         [("Maurice", "possible_name")])
+
+    def test_lone_first_name_mid_sentence_protected(self):
+        recs = find_protected("emailed Maurice the report")
+        self.assertEqual([(r["word"], r["category"]) for r in recs],
+                         [("Maurice", "possible_name")])
+
+    def test_single_capital_letter_without_period_is_not_a_genus(self):
+        self.assertEqual(words("A dog chased the cat"), [])
+
+    def test_pronoun_i_not_protected(self):
+        self.assertEqual(words("then I re-ran it and I'm done"), [])
+
+    def test_after_period_counts_as_sentence_start(self):
+        # "Fixed" begins a new sentence: not a lone mid-sentence name.
+        self.assertEqual(words("shipped it. Fixed the build"), [])
+
+    def test_lone_sentence_initial_name_is_known_gap(self):
+        # Disclosed limitation: indistinguishable from any capitalized
+        # opener without a name list.
+        self.assertEqual(words("Maurice called about the build"), [])
+
     def test_protected_positions_keyed_by_token_index(self):
         pos = protected_positions("gave Mrs. Chen the metformin")
         self.assertIn(2, pos)   # Chen

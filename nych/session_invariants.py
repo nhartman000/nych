@@ -33,6 +33,7 @@ and only happens when the caller asks.
 
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 
@@ -68,6 +69,17 @@ class SessionInvariants:
         """True for the permanent modality operators (by id or glyph)."""
         return word in _OPERATOR_WORDS or self._key(word) in MODALITY_OPERATORS
 
+    @staticmethod
+    def is_operator_symbol(symbol_id: str) -> bool:
+        """True when `symbol_id` contains any modality operator glyph.
+        Operators are invariant in both directions: an operator is never
+        remapped, and no other word may be given an operator's glyph."""
+        # Strip emoji variation selectors so "🗯" and "🗯️" compare equal.
+        def bare(s: str) -> str:
+            return s.replace("️", "").replace("︎", "")
+        sid = bare(str(symbol_id))
+        return any(bare(glyph) in sid for glyph in MODALITY_OPERATORS.values())
+
     def pin(self, word: str, symbol_id: str, *, source: str = "llm",
             force: bool = False) -> dict:
         """Pin `word` -> `symbol_id` as a #temp-invariant.
@@ -80,6 +92,12 @@ class SessionInvariants:
             raise InvariantViolation(
                 f"{word!r} is a permanent modality operator; it is never "
                 "session-pinned or remapped"
+            )
+        if self.is_operator_symbol(symbol_id):
+            raise InvariantViolation(
+                f"{symbol_id!r} carries a permanent modality operator glyph; "
+                f"assigning it to {word!r} would give the operator a second "
+                "meaning"
             )
         key = self._key(word)
         existing = self._pins.get(key)
@@ -120,7 +138,8 @@ class SessionInvariants:
         return sorted(self._pins)
 
     def as_dict(self) -> dict:
-        return {"tag": "#temp-invariant", "pins": dict(self._pins)}
+        # Deep copy: callers mutating the snapshot must never alter live pins.
+        return {"tag": "#temp-invariant", "pins": copy.deepcopy(self._pins)}
 
     def save(self, path: str | Path) -> None:
         Path(path).write_text(
@@ -132,5 +151,16 @@ class SessionInvariants:
     def load(cls, path: str | Path) -> "SessionInvariants":
         data = json.loads(Path(path).read_text(encoding="utf-8"))
         store = cls()
-        store._pins = dict(data.get("pins", {}))
+        for key, pin in dict(data.get("pins", {})).items():
+            # A saved file is input like any other: the same invariance
+            # rules apply on load, so a hand-edited file can't smuggle in
+            # an operator remap or an operator glyph.
+            if store.is_protected(pin.get("word", key)):
+                raise InvariantViolation(
+                    f"pin file remaps permanent operator {pin.get('word', key)!r}")
+            if store.is_operator_symbol(pin.get("symbol_id", "")):
+                raise InvariantViolation(
+                    f"pin file assigns operator glyph {pin.get('symbol_id')!r} "
+                    f"to {pin.get('word', key)!r}")
+            store._pins[store._key(pin.get("word", key))] = copy.deepcopy(pin)
         return store

@@ -236,7 +236,9 @@ to the LLM, with these rules attached:
   — doubling is judged on the original spelling, so "Re-ran" → `rrn` but
   "pattern" → `ptrn`);
 - the four modality operators (👀 👁️🧠 🗯️ 💪) are **permanently
-  invariant** and never remapped;
+  invariant** in both directions: an operator is never remapped, and no
+  other word may be given an operator's glyph (with or without the emoji
+  variation selector) — enforced on `pin` and on loading a saved pin file;
 - once the LLM maps a word in a session it is pinned `#temp-invariant`
   (`nych.session_invariants.SessionInvariants`) and reused, never
   re-decided — a conflicting repin raises unless explicitly forced, and a
@@ -249,7 +251,13 @@ to the LLM, with these rules attached:
   disclosed heuristic over honorific/genus/drug lists and surface
   patterns, not NER; over-protection is the safe failure mode since a
   wrongly-literal word loses nothing while a wrongly-symbolized referent
-  can be unrecoverable).
+  can be unrecoverable). Name pairs are caught mid-sentence and at
+  sentence start ("Nicholas Hartman fixed it"); a lone capitalized word
+  mid-sentence ("emailed Maurice") is protected under a separate
+  `possible_name` category, because the same rule also catches months,
+  places, and product names. Known gap: a lone name opening a sentence
+  ("Maurice called") isn't distinguishable from any capitalized opener
+  without a name list, so it is not protected.
 
 The pin store's lifetime belongs to the caller (saved/loaded as plain
 JSON); nych provides the store and the rules, not the memory policy.
