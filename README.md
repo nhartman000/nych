@@ -175,16 +175,101 @@ nych parse "Re-ran both test suites after changes"
 }
 ```
 
-This is meant to feed a TOTE-loop database lookup (domain + subdomain +
-object/action → a known function or loop, e.g. against
-[T.O.T.E-loops](https://github.com/nhartman000/T.O.T.E-loops)) before
-falling back to the raw schema above when nothing matches — that lookup is
-**not implemented in this package**. Same honesty bar as everywhere else
+This feeds the TOTE-loop database lookup below (domain + subdomain +
+object/action → a known function or loop against
+[T.O.T.E-loops](https://github.com/nhartman000/T.O.T.E-loops)), which
+falls back to the raw schema above when nothing matches. Same honesty bar
+as everywhere else
 here: this is a small heuristic tagger over word lists (enumerators,
 relational-tense markers, a small irregular-verb table plus an -ed suffix
 rule), not a real dependency parser. A role that isn't found comes back as
 `None`, not a guess — e.g. a sentence with no relational-tense marker gets
 `"tense": null, "state": null` rather than an invented split.
+
+## TOTE-loop database lookup
+
+`nych.tote_lookup` connects the state-role tagger to the
+[T.O.T.E-loops](https://github.com/nhartman000/T.O.T.E-loops) seed database:
+given a `tag_roles()` record plus an optional domain and subdomain, it
+queries a caller-supplied TOTE SQLite database (built in that repository
+with `python -m src.build_db`, producing `data/tote_loops.sqlite3`) for a
+matching known loop:
+
+```bash
+nych lookup "Re-ran both test suites after changes" \
+  --db ../T.O.T.E-loops/data/tote_loops.sqlite3 --domain COMPUTER_SCIENCE
+```
+
+Matching is disclosed, deterministic word matching against three fields, in
+order of specificity: the loop's joined gestalt `lexical_form`s, then its
+`name`, then its `objective` (`match_method` in the result says which one
+won). A small hand-built table bridges nych domain labels (e.g.
+`COMPUTER_SCIENCE`) to TOTE domain values (e.g. `software-engineering`);
+`--subdomain` constrains on the `loop_id` namespace prefix (`code`, `ai`).
+The only normalization is a disclosed naive plural rule ("suites" can match
+"suite").
+
+Same honesty bar as the rest of the package: when nothing matches — or the
+database path doesn't exist, or the roles contain no usable object/action
+words — the result is an explicit fallback carrying the raw state-role
+record (`{"matched": false, "fallback": "state_roles", "reason": ...}`),
+never a forced best guess. No database is bundled with this package and no
+sibling-repository path is probed; the path is always caller-supplied.
+
+## Discretionary Gestalt mapping: the LLM boundary
+
+The pipeline is `USER → natural-language input → NYCH encoder →
+Gestalt mapping → MG8 engine`. Everything up to Gestalt mapping is
+pre-LLM and deterministic: the state representation (`nych parse`), the
+relational tense, the action, the domain/subdomain and vernacular
+competency (`nych analyze`), and the TOTE-loop lookup (`nych lookup`) are
+all extracted **before any word is Gestalt-mapped to any symbol**.
+
+At Gestalt mapping, discretion is deferred to an LLM — there aren't enough
+symbols to handle all of English. nych never makes that call itself; it
+builds the handoff package the caller (e.g. mg8-engine's gate loop) gives
+to the LLM, with these rules attached:
+
+- map by most obvious visual match;
+- embed the word **sans vowels and doubled consonants** into the symbol's
+  id string as a disambiguation clue (`nych.skeleton`, `nych skeleton WORD`
+  — doubling is judged on the original spelling, so "Re-ran" → `rrn` but
+  "pattern" → `ptrn`);
+- the four modality operators (👀 👁️🧠 🗯️ 💪) are **permanently
+  invariant** and never remapped;
+- once the LLM maps a word in a session it is pinned `#temp-invariant`
+  (`nych.session_invariants.SessionInvariants`) and reused, never
+  re-decided — a conflicting repin raises unless explicitly forced, and a
+  forced repin keeps the old value in the pin's history;
+- compressible deterministic findings are chunked before symbols are
+  rendered.
+
+The pin store's lifetime belongs to the caller (saved/loaded as plain
+JSON); nych provides the store and the rules, not the memory policy.
+
+## .gst pretext export for the LLM pruning step
+
+The inverse-transform/dither pruning is also LLM-executed, not
+deterministic code: the coarse **domain prune**, the **subdomain prune**,
+and the **competency check** within domain — with a controlled
+boundary-leakage margin ("dither") so access widens gradually from novice
+to expert instead of cliff-edging. All the deterministic findings are
+passed to that LLM as the pretext in a `.gst` file:
+
+```bash
+nych gst "re-ran both test suites after changes" \
+  --db ../T.O.T.E-loops/data/tote_loops.sqlite3 --dither 0.1 --out out.gst
+```
+
+The payload shape is grounded against mg8-engine's actual `Gst` model
+(plain JSON, extra keys allowed): `gst_version`, `state_id`, `domain`,
+`state` (source text + roles), and a `nych_pretext` extra key carrying the
+analysis, the TOTE match or its honest fallback, the invariant modality
+operators, the words still needing a Gestalt mapping (each with its
+consonant-skeleton clue), the session pins, the discretion rules, and the
+pruning instructions with the dither value. mg8-engine's `Gst` parser
+accepts the file unchanged. nych serializes the pretext; it does not
+execute the prune or call the LLM.
 
 To save a visualization:
 
