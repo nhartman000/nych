@@ -246,7 +246,7 @@ class ActionPermit:
     epoch: int
     gate_set_hash: str
     state: str = GateState.ISSUED
-    issued_at: float = field(default_factory=time.time)
+    issued_at: float = 0.0
     consumed_at: Optional[float] = None
     revoked_reason: Optional[str] = None
 
