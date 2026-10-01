@@ -1,6 +1,10 @@
 import unittest
 
-from nych.protected_terms import find_protected, protected_positions
+from nych.protected_terms import (
+    find_protected,
+    has_dictionary_definition,
+    protected_positions,
+)
 
 
 def words(sentence):
@@ -74,10 +78,42 @@ class ProtectedTermTests(unittest.TestCase):
         # "Fixed" begins a new sentence: not a lone mid-sentence name.
         self.assertEqual(words("shipped it. Fixed the build"), [])
 
-    def test_lone_sentence_initial_name_is_known_gap(self):
-        # Disclosed limitation: indistinguishable from any capitalized
-        # opener without a name list.
-        self.assertEqual(words("Maurice called about the build"), [])
+    def test_sentence_initial_word_without_definition_is_a_name(self):
+        recs = find_protected("Maurice called about the build")
+        self.assertEqual([(r["word"], r["category"]) for r in recs],
+                         [("Maurice", "possible_name")])
+        self.assertEqual(recs[0]["reason"],
+                         "sentence-initial word with no dictionary definition")
+
+    def test_sentence_initial_name_after_period(self):
+        recs = find_protected("Debugged it. Maurice approved")
+        self.assertEqual([r["word"] for r in recs], ["Maurice"])
+
+    def test_possessive_sentence_initial_name(self):
+        self.assertEqual(words("Maurice's report shipped"), ["Maurice's"])
+
+    def test_dictionary_openers_are_not_names(self):
+        for s in ["Fixed the build", "Re-ran both test suites after changes",
+                  "Refactored the parser", "Emailed the team",
+                  "Don't ship it", "It's done", "Pre-repurposing notes"]:
+            self.assertEqual(words(s), [], s)
+
+    def test_name_that_is_also_a_dictionary_word_is_known_gap(self):
+        # Disclosed limitation of the rule itself: "Mark" and "Grace" have
+        # dictionary definitions, so at sentence start they read as words.
+        self.assertEqual(words("Mark fixed the build"), [])
+
+    def test_dictionary_excludes_capitalized_only_names(self):
+        for name in ["Maurice", "Nicholas", "Hartman", "April", "London"]:
+            self.assertFalse(has_dictionary_definition(name), name)
+        for word in ["emailed", "refactored", "reran", "fixed"]:
+            self.assertTrue(has_dictionary_definition(word), word)
+
+    def test_hyphen_prefix_only_for_hyphenated_words(self):
+        self.assertTrue(has_dictionary_definition("Non-trivial"))
+        # unhyphenated prefix stripping would let surnames through
+        self.assertFalse(has_dictionary_definition("Underwood"))
+        self.assertFalse(has_dictionary_definition("Jean-Luc"))
 
     def test_protected_positions_keyed_by_token_index(self):
         pos = protected_positions("gave Mrs. Chen the metformin")

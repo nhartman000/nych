@@ -255,9 +255,17 @@ to the LLM, with these rules attached:
   sentence start ("Nicholas Hartman fixed it"); a lone capitalized word
   mid-sentence ("emailed Maurice") is protected under a separate
   `possible_name` category, because the same rule also catches months,
-  places, and product names. Known gap: a lone name opening a sentence
-  ("Maurice called") isn't distinguishable from any capitalized opener
-  without a name list, so it is not protected.
+  places, and product names. The capitalized first word of a sentence is
+  treated as a name when it has **no dictionary definition** ("Maurice
+  called" → protected; "Fixed the build", "Re-ran …", "Emailed …" → not).
+  The dictionary is a bundled 91,034-word list (ESDB/SCOWL size 60,
+  lowercase entries only, so names that exist only capitalized never count
+  as defined; provenance and license in
+  [`nych/data/DICTIONARY_LICENSE.txt`](nych/data/DICTIONARY_LICENSE.txt)).
+  Measured on the commit messages and READMEs of the NYCH repositories it
+  flagged 1 coined word ("Multiword") out of 225 sentence openers. Known
+  gap, inherent to the rule: a name that is also a dictionary word
+  ("Mark", "Grace") reads as a word at sentence start.
 
 The pin store's lifetime belongs to the caller (saved/loaded as plain
 JSON); nych provides the store and the rules, not the memory policy.

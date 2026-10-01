@@ -16,9 +16,15 @@ this package -- small hand-built lists and surface patterns, not NER:
                    mid-sentence or at sentence start when the first word
                    isn't a common sentence opener ("The", "Then", ...).
     possible_name -- a lone capitalized word mid-sentence ("emailed
-                   Maurice"). Also catches months, places, and product
-                   names; labelled separately so that over-protection is
-                   visible rather than presented as a confirmed person.
+                   Maurice"); or the capitalized first word of a sentence
+                   when it has no dictionary definition ("Maurice called"
+                   -- rule: an opener with no definition is a name). The
+                   dictionary is the bundled ESDB/SCOWL size-60 word list,
+                   lowercase entries only, so names that exist only in
+                   capitalized form never count as defined. Also catches
+                   months, places, product names, and coined words;
+                   labelled separately so that over-protection is visible
+                   rather than presented as a confirmed person.
     scientific  -- a binomial pattern: a known genus (small list) or an
                    abbreviated genus ("E.") followed by a lowercase
                    species word.
@@ -26,18 +32,66 @@ this package -- small hand-built lists and surface patterns, not NER:
                    carrying a characteristic pharmaceutical suffix
                    (-cillin, -statin, -pril, -azepam, ...).
 
-Remaining known gap: a lone name that starts a sentence ("Maurice called")
-is indistinguishable from any capitalized sentence opener without a name
-list, so it is not protected. Lowercase names ("emailed maurice") are not
-caught either. These rules over-protect (months, places, products, a
-capitalized pair that isn't a person). Over-protection
+Remaining known gaps: a name that is also a dictionary word ("Mark",
+"Will", "Grace", "Rose") opening a sentence reads as a word, by the
+definition of the rule; lowercase names ("emailed maurice") are not caught.
+These rules over-protect (months, places, products, coined words like
+"Multiword", a capitalized pair that isn't a person). Over-protection
 is the safe failure mode here: a word wrongly left literal loses nothing,
 while a protected term wrongly symbolized loses its referent.
 """
 
 from __future__ import annotations
 
+import functools
+import gzip
 import re
+from pathlib import Path
+
+DICTIONARY_PATH = Path(__file__).with_name("data") / "dictionary_words.txt.gz"
+
+
+@functools.lru_cache(maxsize=1)
+def _dictionary() -> frozenset[str]:
+    """Lowercase English dictionary entries (ESDB/SCOWL size 60; see
+    data/DICTIONARY_LICENSE.txt). Names that exist only in capitalized form
+    are not in it -- that is what makes the first-word rule work."""
+    with gzip.open(DICTIONARY_PATH, "rt", encoding="utf-8") as f:
+        return frozenset(line.strip() for line in f if line.strip())
+
+
+def has_dictionary_definition(word: str) -> bool:
+    """True if `word` (any case) is an ordinary dictionary word.
+
+    Checks the lowercase form; for hyphenated words also the joined form
+    ("Re-ran" -> "reran") or all parts defined; for contractions also the
+    stem ("Don't" is listed; "Maurice's" -> "maurice", not listed)."""
+    lower = re.sub(r"^[^a-z]+|[^a-z]+$", "", word.lower())
+    if not lower:
+        return False
+    d = _dictionary()
+    if lower in d:
+        return True
+    if "'" in lower and lower.split("'")[0] in d:
+        return True
+    if "-" in lower:
+        parts = [p for p in lower.split("-") if p]
+        if lower.replace("-", "") in d or (parts and all(p in d for p in parts)):
+            return True
+        # Hyphenated prefix + defined word ("Pre-repurposing", "Non-trivial").
+        # Deliberately NOT applied to unhyphenated words: stripping "under"
+        # from "Underwood" would let a surname pass as a dictionary word.
+        if len(parts) >= 2 and parts[0] in HYPHEN_PREFIXES and \
+                has_dictionary_definition("-".join(parts[1:])):
+            return True
+    return False
+
+
+HYPHEN_PREFIXES = {
+    "anti", "auto", "bi", "co", "counter", "de", "dis", "inter", "micro",
+    "mid", "mini", "multi", "non", "over", "post", "pre", "pro", "re",
+    "self", "semi", "sub", "super", "trans", "tri", "un", "under",
+}
 
 HONORIFICS = {
     "mr", "mrs", "ms", "mx", "dr", "prof", "professor", "sir", "madam",
@@ -168,6 +222,17 @@ def find_protected(sentence: str) -> list[dict]:
                       else "capitalized adjacent pair")
             protect(i, "person", reason)
             protect(i + 1, "person", reason)
+            continue
+
+        # possible_name: the first word of a sentence, capitalized, with no
+        # dictionary definition is treated as a name ("Maurice called").
+        # Ordinary openers ("Fixed", "Re-ran", "Emailed") are dictionary
+        # words and pass through to Gestalt mapping as normal.
+        if (sentence_start and _is_capitalized(core)
+                and not _is_pronoun_i(core) and lower not in HONORIFICS
+                and not has_dictionary_definition(core)):
+            protect(i, "possible_name",
+                    "sentence-initial word with no dictionary definition")
             continue
 
         # possible_name: a lone capitalized word mid-sentence. Catches

@@ -21,7 +21,7 @@ dependencies = [
 packages = ["nych"]
 
 [tool.setuptools.package-data]
-nych = ["data/*.json"]
+nych = ["data/*.json", "data/*.gz", "data/*.txt"]
 
 [project.scripts]
 nych = "nych.cli:main"
