@@ -18,7 +18,7 @@ def cmd_inspect(args):
 
 def cmd_visualize(args):
     # Imported lazily so the matplotlib dependency is only required for
-    # the visualize subcommand, not for parse/analyze/encode/lookup.
+    # the visualize subcommand, not for parse/analyze/encode/lookup/gst.
     from nych.visualizer import NychVisualizer
 
     viz = NychVisualizer()

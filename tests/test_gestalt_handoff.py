@@ -86,3 +86,26 @@ class GestaltHandoffTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ProtectedTermHandoffTests(unittest.TestCase):
+    def test_protected_terms_never_in_needs_mapping(self):
+        h = build_handoff("prescribed metformin after the consult")
+        needs = [d["word"].lower() for d in h["needs_mapping"]]
+        self.assertNotIn("metformin", needs)
+        protected = {p["word"]: p for p in h["protected"]}
+        self.assertIn("metformin", protected)
+        self.assertEqual(protected["metformin"]["render"], "literal")
+        self.assertEqual(protected["metformin"]["category"], "drug")
+
+    def test_person_name_protected_in_handoff(self):
+        h = build_handoff("emailed Nicholas Hartman the report")
+        needs = [d["word"] for d in h["needs_mapping"]]
+        self.assertNotIn("Nicholas", needs)
+        self.assertNotIn("Hartman", needs)
+        self.assertIn("report", [w.lower() for w in needs])
+
+    def test_protection_rule_present_in_discretion_rules(self):
+        h = build_handoff("fixed the build")
+        self.assertTrue(any("NOT rendered into Gestalt" in r
+                            for r in h["discretion_rules"]))
