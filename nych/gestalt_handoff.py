@@ -23,7 +23,10 @@ discretion:
     4. once a word is mapped this session it is pinned #temp-invariant
        (session_invariants.py) and reused, never re-decided;
     5. chunk/compress whatever of the deterministic findings can be
-       compressed before rendering symbol matches.
+       compressed before rendering symbol matches;
+    6. scientific names, names of people, and prescription drug names are
+       NOT rendered into Gestalt -- they pass through literally
+       (protected_terms.py), with no glyph, skeleton id, or session pin.
 
 This module builds that handoff package. It does NOT call an LLM -- nych
 stays deterministic end to end; the caller (e.g. mg8-engine's gate loop)
@@ -41,6 +44,7 @@ import re
 from pathlib import Path
 
 from .competency import analyze_utterance
+from .protected_terms import protected_positions
 from .session_invariants import MODALITY_OPERATORS, SessionInvariants
 from .skeleton import describe
 from .state_roles import tag_roles
@@ -58,6 +62,9 @@ DISCRETION_RULES = [
     "The four modality operators are invariant and are never remapped.",
     "A word already pinned #temp-invariant this session keeps its existing "
     "mapping; do not re-decide it.",
+    "Scientific names, names of people, and prescription drug names are "
+    "NOT rendered into Gestalt symbols: pass them through literally, with "
+    "no glyph, no skeleton id, and no session pin.",
 ]
 
 _STOPWORDS = {
@@ -66,10 +73,12 @@ _STOPWORDS = {
 }
 
 
-def _mapping_words(roles: dict) -> list[str]:
+def _mapping_words(roles: dict, protected: dict[int, dict] | None = None) -> list[str]:
     """Content words from the tagged roles, in sentence order, that are
     candidates for Gestalt mapping: action, enumerator, object span,
-    tense marker, state span. Stopwords excluded, order preserved."""
+    tense marker, state span. Stopwords and protected-term positions
+    excluded, order preserved."""
+    protected = protected or {}
     picks: list[tuple[int, str]] = []
     for role in ("action", "enumerator", "tense"):
         r = roles.get(role)
@@ -82,7 +91,9 @@ def _mapping_words(roles: dict) -> list[str]:
                 picks.append((r["start"] + offset, word))
     seen: set[str] = set()
     out: list[str] = []
-    for _, word in sorted(picks):
+    for position, word in sorted(picks):
+        if position in protected:
+            continue
         core = re.sub(r"[^a-z']", "", word.lower())
         if core and core not in _STOPWORDS and core not in seen:
             seen.add(core)
@@ -111,10 +122,12 @@ def build_handoff(text: str, *, db_path: str | Path | None = None,
             subdomain=subdomain,
         )
 
+    protected = protected_positions(text)
+
     session = session or SessionInvariants()
     needs_mapping = []
     pinned = []
-    for word in _mapping_words(roles):
+    for word in _mapping_words(roles, protected):
         pin = session.lookup(word)
         if pin is not None:
             pinned.append(pin)
@@ -130,4 +143,5 @@ def build_handoff(text: str, *, db_path: str | Path | None = None,
         "discretion_rules": list(DISCRETION_RULES),
         "needs_mapping": needs_mapping,
         "pinned": pinned,
+        "protected": [dict(r, render="literal") for r in protected.values()],
     }

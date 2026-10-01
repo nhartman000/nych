@@ -242,7 +242,14 @@ to the LLM, with these rules attached:
   re-decided — a conflicting repin raises unless explicitly forced, and a
   forced repin keeps the old value in the pin's history;
 - compressible deterministic findings are chunked before symbols are
-  rendered.
+  rendered;
+- **scientific names, names of people, and prescription drug names are
+  NOT rendered into Gestalt** — they pass through literally, with no
+  glyph, no skeleton id, and no session pin (`nych.protected_terms`, a
+  disclosed heuristic over honorific/genus/drug lists and surface
+  patterns, not NER; over-protection is the safe failure mode since a
+  wrongly-literal word loses nothing while a wrongly-symbolized referent
+  can be unrecoverable).
 
 The pin store's lifetime belongs to the caller (saved/loaded as plain
 JSON); nych provides the store and the rules, not the memory policy.
@@ -266,10 +273,11 @@ The payload shape is grounded against mg8-engine's actual `Gst` model
 `state` (source text + roles), and a `nych_pretext` extra key carrying the
 analysis, the TOTE match or its honest fallback, the invariant modality
 operators, the words still needing a Gestalt mapping (each with its
-consonant-skeleton clue), the session pins, the discretion rules, and the
-pruning instructions with the dither value. mg8-engine's `Gst` parser
-accepts the file unchanged. nych serializes the pretext; it does not
-execute the prune or call the LLM.
+consonant-skeleton clue), the protected terms, the session pins, the
+discretion rules, and the pruning instructions with the dither value.
+mg8-engine's `Gst` parser accepts the file unchanged, and its
+`mg8_engine.pipeline` module consumes it for the first LLM call. nych
+serializes the pretext; it does not execute the prune or call the LLM.
 
 To save a visualization:
 

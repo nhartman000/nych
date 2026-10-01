@@ -85,6 +85,7 @@ def build_gst(text: str, *, db_path: str | Path | None = None,
             "modality_operators": handoff["modality_operators"],
             "needs_mapping": handoff["needs_mapping"],
             "pinned": handoff["pinned"],
+            "protected": handoff["protected"],
             "discretion_rules": handoff["discretion_rules"],
             "pruning": {
                 "dither": dither,
