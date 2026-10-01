@@ -62,6 +62,46 @@ class SessionInvariantTests(unittest.TestCase):
         self.assertEqual(loaded.lookup("pattern")["symbol_id"], "gestalt.ptrn")
         self.assertEqual(loaded.pinned_words(), ["pattern"])
 
+    def test_operator_glyph_cannot_be_given_to_another_word(self):
+        for glyph in MODALITY_OPERATORS.values():
+            with self.assertRaises(InvariantViolation):
+                self.store.pin("whirlygig", glyph)
+            with self.assertRaises(InvariantViolation):
+                self.store.pin("whirlygig", f"gestalt.whrlyg{glyph}")
+
+    def test_operator_glyph_without_variation_selector_still_caught(self):
+        with self.assertRaises(InvariantViolation):
+            self.store.pin("whirlygig", "\U0001F5EF")  # 🗯 without U+FE0F
+
+    def test_as_dict_snapshot_does_not_leak_into_store(self):
+        self.store.pin("pattern", "gestalt.ptrn")
+        snap = self.store.as_dict()
+        snap["pins"]["pattern"]["symbol_id"] = "TAMPERED"
+        snap["pins"]["pattern"]["history"].append({"symbol_id": "x"})
+        pin = self.store.lookup("pattern")
+        self.assertEqual(pin["symbol_id"], "gestalt.ptrn")
+        self.assertEqual(pin["history"], [])
+
+    def test_load_rejects_hand_edited_operator_glyph(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pins.json"
+            path.write_text('{"pins": {"test": {"word": "test", '
+                            '"symbol_id": "\\ud83d\\udc40", "source": "llm", '
+                            '"tag": "#temp-invariant", "history": []}}}',
+                            encoding="utf-8")
+            with self.assertRaises(InvariantViolation):
+                SessionInvariants.load(path)
+
+    def test_load_rejects_hand_edited_operator_remap(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pins.json"
+            path.write_text('{"pins": {"execute": {"word": "execute", '
+                            '"symbol_id": "gestalt.x", "source": "llm", '
+                            '"tag": "#temp-invariant", "history": []}}}',
+                            encoding="utf-8")
+            with self.assertRaises(InvariantViolation):
+                SessionInvariants.load(path)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -19,7 +19,8 @@ discretion:
     1. map by most obvious visual match;
     2. embed the word sans vowels and doubled consonants into the id
        string as a disambiguation clue (skeleton.py);
-    3. the four modality operators are invariant -- never remapped;
+    3. the four modality operators are invariant -- never remapped, and
+       their glyphs never assigned to another word;
     4. once a word is mapped this session it is pinned #temp-invariant
        (session_invariants.py) and reused, never re-decided;
     5. chunk/compress whatever of the deterministic findings can be
@@ -59,7 +60,8 @@ DISCRETION_RULES = [
     "Embed the provided consonant skeleton (word sans vowels and doubled "
     "consonants) into the chosen symbol's id string as a disambiguation "
     "clue.",
-    "The four modality operators are invariant and are never remapped.",
+    "The four modality operators are invariant: they are never remapped, "
+    "and their glyphs are never assigned to any other word.",
     "A word already pinned #temp-invariant this session keeps its existing "
     "mapping; do not re-decide it.",
     "Scientific names, names of people, and prescription drug names are "
