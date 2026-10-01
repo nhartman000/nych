@@ -1,0 +1,20 @@
+Python 3.14.4
+iniconfig==2.3.0
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.0.3
+---
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/nn/PycharmProjects/Nych symbolic pipeline
+configfile: pyproject.toml
+collected 70 items
+
+tests/adversarial/test_mgate_invariants.py ........................      [ 34%]
+tests/test_benchmark.py ....                                             [ 40%]
+tests/test_pipeline.py ............                                      [ 57%]
+tests/test_schemas.py ...............                                    [ 78%]
+tests/test_types.py ...............                                      [100%]
+
+============================== 70 passed in 0.08s ==============================
