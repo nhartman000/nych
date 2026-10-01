@@ -1,0 +1,562 @@
+{
+  "configs": {
+    "C0": {
+      "name": "C0_deterministic",
+      "description": "Deterministic search - first admissible candidate, no gate checks",
+      "mgate_enabled": false,
+      "machine_b_enabled": false,
+      "max_mgate_iterations": 0,
+      "max_backtrack_steps": 0,
+      "use_probabilistic_selection": false,
+      "selection_seed": null
+    },
+    "C1": {
+      "name": "C1_nych_no_mgate",
+      "description": "NYCH constrained trajectory search without MGate",
+      "mgate_enabled": false,
+      "machine_b_enabled": false,
+      "max_mgate_iterations": 0,
+      "max_backtrack_steps": 0,
+      "use_probabilistic_selection": false,
+      "selection_seed": null
+    },
+    "C2": {
+      "name": "C2_nych_with_mgate",
+      "description": "NYCH + Three-Gate MGate with backtracking",
+      "mgate_enabled": true,
+      "machine_b_enabled": false,
+      "max_mgate_iterations": 5,
+      "max_backtrack_steps": 10,
+      "use_probabilistic_selection": false,
+      "selection_seed": null
+    }
+  },
+  "results": {
+    "C0": [
+      "BenchmarkMetrics(problem_id='simple_001', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0017443589749746025, final_state_hash='c104a63ef57e6e45', gst_hash='e3944aabdb6e0ff6', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Build a unit test for a calculator', 'domain': 'construction', 'intent': 'test', 'expected_domain': 'construction', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='simple_002', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00041940901428461075, final_state_hash='ca97c5a7460c22f7', gst_hash='14b039b819cf9e20', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Write a function to add two numbers', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_003', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003917849971912801, final_state_hash='09ea6a234a717e48', gst_hash='f1c8f5e91419c745', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Create a REST API endpoint', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_004', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00034401100128889084, final_state_hash='3fc51f859f6458f7', gst_hash='e16c11ca2f679d8c', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Debug a memory leak in a service', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_005', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00040715403156355023, final_state_hash='5da2adb8998104d5', gst_hash='ab5aa3c12986e23e', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Design a database schema for e-commerce', 'domain': 'design', 'intent': 'design', 'expected_domain': 'design', 'expected_intent': 'design'})",
+      "BenchmarkMetrics(problem_id='simple_006', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003476249985396862, final_state_hash='005368ce6194b305', gst_hash='dbaed0f653047d24', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Set up CI/CD pipeline for deployment', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_007', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00039287895197048783, final_state_hash='486d6f0e0dd60de6', gst_hash='028c13382c023d14', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Write integration tests for payment module', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='simple_008', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00038880499778315425, final_state_hash='d3b2907f1be8a0e5', gst_hash='37735453dba60acf', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Optimize database query performance', 'domain': 'data_processing', 'intent': 'operate', 'expected_domain': 'data_processing', 'expected_intent': 'operate'})",
+      "BenchmarkMetrics(problem_id='simple_009', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003308189916424453, final_state_hash='9a5b6da09edd6b9a', gst_hash='7b9458bdf4c725aa', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Implement user authentication with JWT', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_010', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00044771499233320355, final_state_hash='b3c007bac22d8c34', gst_hash='1047f5472f8e0503', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Create a logging middleware for the API', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='invalid_001', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00034009601222351193, final_state_hash='49272291116cb3f4', gst_hash='afbfe3042ecdee1a', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with ambiguous modality', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_002', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003594550071284175, final_state_hash='6a4e4c9c8e4eebe8', gst_hash='dd8e0bec62353d37', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with conflicting perspectives', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_003', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00036501599242910743, final_state_hash='c8fa9e2c1baf1c25', gst_hash='9b44b570e6423554', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with domain ambiguity', 'domain': 'programming', 'intent': 'test', 'expected_domain': 'programming', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_004', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00035922095412388444, final_state_hash='8641c907ca8375cd', gst_hash='d9dc3dc358f88f8f', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with temporal inconsistency', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_005', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00038183300057426095, final_state_hash='14e777079e98aa0a', gst_hash='5cf48a56c7dafcc0', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with missing subject', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_006', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00034531200071796775, final_state_hash='a86f71e29c57950e', gst_hash='248b416f45e57b7f', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with impossible competency claim', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_007', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003477279678918421, final_state_hash='b6eb976a5d3ebfc7', gst_hash='eec03b3030611a5d', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with contradictory constraints', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_008', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00033241702476516366, final_state_hash='c3d68fbdf16268b0', gst_hash='cc7c8834c93ac393', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with undefined operator', 'domain': 'general', 'intent': 'process', 'expected_domain': 'general', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='invalid_009', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00030682794749736786, final_state_hash='762e339179151fbf', gst_hash='87b5ac229cbbaac6', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with empty context', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_010', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00041286100167781115, final_state_hash='ba68d745b4270146', gst_hash='351f2074291e8284', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with mixed modalities', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='gate_matter_001', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00036566698690876365, final_state_hash='7e9087e057c1d94f', gst_hash='e2de73b55ac5ae65', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with state continuity break', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_002', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003802469582296908, final_state_hash='2cb2c9ab4dac1132', gst_hash='d66d3b9b6e81c983', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with perspective shift', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_003', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0004525050171650946, final_state_hash='bfd992fb25ce42d6', gst_hash='e0b94000423de531', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with tense inconsistency', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_004', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00040288601303473115, final_state_hash='03f6f0afd9fb5304', gst_hash='f0e3befb5d1bdb97', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test nested self-reference', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_005', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00042318098712712526, final_state_hash='0ff0142a11d1b30a', gst_hash='2100d56ffec6709d', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with competency escalation', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_006', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003795800148509443, final_state_hash='2d94fdbe9ef5fe66', gst_hash='d13d786b2b921b41', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with domain drift', 'domain': 'programming', 'intent': 'test', 'expected_domain': 'programming', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_007', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0004287569900043309, final_state_hash='95aaac31e0dba56d', gst_hash='1919e249778f9712', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with actor substitution', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_008', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003887970233336091, final_state_hash='a203528c9df6eb18', gst_hash='4e0a04a09008a1de', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with nested intentions', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_009', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0004074979806318879, final_state_hash='042540e3247a8c72', gst_hash='af1c6cf0f95a9590', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with temporal paradox', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_010', config='C0', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00036841101245954633, final_state_hash='dff5de90d8e6876c', gst_hash='dd10103f03119c18', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with contradictory evidence', 'domain': 'testing', 'intent': 'evaluate', 'expected_domain': 'testing', 'expected_intent': 'evaluate'})"
+    ],
+    "C1": [
+      "BenchmarkMetrics(problem_id='simple_001', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003527989611029625, final_state_hash='c104a63ef57e6e45', gst_hash='e3944aabdb6e0ff6', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Build a unit test for a calculator', 'domain': 'construction', 'intent': 'test', 'expected_domain': 'construction', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='simple_002', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003795009688474238, final_state_hash='ca97c5a7460c22f7', gst_hash='14b039b819cf9e20', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Write a function to add two numbers', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_003', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003572080167941749, final_state_hash='09ea6a234a717e48', gst_hash='f1c8f5e91419c745', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Create a REST API endpoint', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_004', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003760000108741224, final_state_hash='3fc51f859f6458f7', gst_hash='e16c11ca2f679d8c', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Debug a memory leak in a service', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_005', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003479149891063571, final_state_hash='5da2adb8998104d5', gst_hash='ab5aa3c12986e23e', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Design a database schema for e-commerce', 'domain': 'design', 'intent': 'design', 'expected_domain': 'design', 'expected_intent': 'design'})",
+      "BenchmarkMetrics(problem_id='simple_006', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003381609567441046, final_state_hash='005368ce6194b305', gst_hash='dbaed0f653047d24', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Set up CI/CD pipeline for deployment', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_007', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00037924398202449083, final_state_hash='486d6f0e0dd60de6', gst_hash='028c13382c023d14', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Write integration tests for payment module', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='simple_008', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00034492998383939266, final_state_hash='d3b2907f1be8a0e5', gst_hash='37735453dba60acf', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Optimize database query performance', 'domain': 'data_processing', 'intent': 'operate', 'expected_domain': 'data_processing', 'expected_intent': 'operate'})",
+      "BenchmarkMetrics(problem_id='simple_009', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0005259430035948753, final_state_hash='9a5b6da09edd6b9a', gst_hash='7b9458bdf4c725aa', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Implement user authentication with JWT', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_010', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00034376600524410605, final_state_hash='b3c007bac22d8c34', gst_hash='1047f5472f8e0503', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Create a logging middleware for the API', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='invalid_001', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00038886599941179156, final_state_hash='49272291116cb3f4', gst_hash='afbfe3042ecdee1a', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with ambiguous modality', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_002', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00041922496166080236, final_state_hash='6a4e4c9c8e4eebe8', gst_hash='dd8e0bec62353d37', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with conflicting perspectives', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_003', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00041381700430065393, final_state_hash='c8fa9e2c1baf1c25', gst_hash='9b44b570e6423554', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with domain ambiguity', 'domain': 'programming', 'intent': 'test', 'expected_domain': 'programming', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_004', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003684480325318873, final_state_hash='8641c907ca8375cd', gst_hash='d9dc3dc358f88f8f', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with temporal inconsistency', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_005', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00033676199382171035, final_state_hash='14e777079e98aa0a', gst_hash='5cf48a56c7dafcc0', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with missing subject', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_006', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00037806801265105605, final_state_hash='a86f71e29c57950e', gst_hash='248b416f45e57b7f', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with impossible competency claim', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_007', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0004272980149835348, final_state_hash='b6eb976a5d3ebfc7', gst_hash='eec03b3030611a5d', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with contradictory constraints', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_008', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003678080393001437, final_state_hash='c3d68fbdf16268b0', gst_hash='cc7c8834c93ac393', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with undefined operator', 'domain': 'general', 'intent': 'process', 'expected_domain': 'general', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='invalid_009', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00030370900640264153, final_state_hash='762e339179151fbf', gst_hash='87b5ac229cbbaac6', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with empty context', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_010', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0005325700039975345, final_state_hash='ba68d745b4270146', gst_hash='351f2074291e8284', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with mixed modalities', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='gate_matter_001', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00040779198752716184, final_state_hash='7e9087e057c1d94f', gst_hash='e2de73b55ac5ae65', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with state continuity break', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_002', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00041064299875870347, final_state_hash='2cb2c9ab4dac1132', gst_hash='d66d3b9b6e81c983', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with perspective shift', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_003', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00041067396523430943, final_state_hash='bfd992fb25ce42d6', gst_hash='e0b94000423de531', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with tense inconsistency', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_004', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003494319971650839, final_state_hash='03f6f0afd9fb5304', gst_hash='f0e3befb5d1bdb97', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test nested self-reference', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_005', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00039303500670939684, final_state_hash='0ff0142a11d1b30a', gst_hash='2100d56ffec6709d', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with competency escalation', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_006', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003696479834616184, final_state_hash='2d94fdbe9ef5fe66', gst_hash='d13d786b2b921b41', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with domain drift', 'domain': 'programming', 'intent': 'test', 'expected_domain': 'programming', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_007', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00036698696203529835, final_state_hash='95aaac31e0dba56d', gst_hash='1919e249778f9712', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with actor substitution', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_008', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.00040136900497600436, final_state_hash='a203528c9df6eb18', gst_hash='4e0a04a09008a1de', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with nested intentions', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_009', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003685670089907944, final_state_hash='042540e3247a8c72', gst_hash='af1c6cf0f95a9590', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with temporal paradox', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_010', config='C1', success=True, invalid_advancement=False, gate_evaluations=0, backtracks=0, transform_evaluations=0, runtime_seconds=0.0003853220259770751, final_state_hash='dff5de90d8e6876c', gst_hash='dd10103f03119c18', permit_issued=False, permit_violations=0, error=None, metadata={'description': 'Test with contradictory evidence', 'domain': 'testing', 'intent': 'evaluate', 'expected_domain': 'testing', 'expected_intent': 'evaluate'})"
+    ],
+    "C2": [
+      "BenchmarkMetrics(problem_id='simple_001', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004490810097195208, final_state_hash='9fff460a2b3318f8', gst_hash='9133868710f01df2', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Build a unit test for a calculator', 'domain': 'construction', 'intent': 'test', 'expected_domain': 'construction', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='simple_002', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00045999500434845686, final_state_hash='f619e5631c1efb0d', gst_hash='82a4ca10f89fa2ab', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Write a function to add two numbers', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_003', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004178489907644689, final_state_hash='415e238baca0c6ff', gst_hash='5f902af8b9d6994a', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Create a REST API endpoint', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_004', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00044502399396151304, final_state_hash='40982b9876dc13a8', gst_hash='0e6179092219f2ff', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Debug a memory leak in a service', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_005', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004043920198455453, final_state_hash='3bc0922a20782c9c', gst_hash='94801da594e1ab84', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Design a database schema for e-commerce', 'domain': 'design', 'intent': 'design', 'expected_domain': 'design', 'expected_intent': 'design'})",
+      "BenchmarkMetrics(problem_id='simple_006', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004457239992916584, final_state_hash='c5fe6858600fc93e', gst_hash='8abebf6fcb6b9c89', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Set up CI/CD pipeline for deployment', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_007', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004082820378243923, final_state_hash='d265885dd68d689f', gst_hash='9212d04b6f74ca72', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Write integration tests for payment module', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='simple_008', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00044889800483360887, final_state_hash='68a31b6045da181c', gst_hash='c136d968f14b3931', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Optimize database query performance', 'domain': 'data_processing', 'intent': 'operate', 'expected_domain': 'data_processing', 'expected_intent': 'operate'})",
+      "BenchmarkMetrics(problem_id='simple_009', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00039111898513510823, final_state_hash='8396d2682c743595', gst_hash='8a3bd7fb79916339', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Implement user authentication with JWT', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='simple_010', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00043231999734416604, final_state_hash='0e4d0f19a234984e', gst_hash='7174d758f2846bcb', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Create a logging middleware for the API', 'domain': 'unknown', 'intent': 'process', 'expected_domain': 'unknown', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='invalid_001', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00039857299998402596, final_state_hash='0b83247d6842ff6d', gst_hash='9c2777b077c99d23', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with ambiguous modality', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_002', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00045544502791017294, final_state_hash='6c20a3341c01e371', gst_hash='8237e77bc6ce9c79', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with conflicting perspectives', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_003', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00041536102071404457, final_state_hash='a6990ebd111f11d3', gst_hash='7e2f2eee0266efb0', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with domain ambiguity', 'domain': 'programming', 'intent': 'test', 'expected_domain': 'programming', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_004', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00045629299711436033, final_state_hash='e6c2112e045b6083', gst_hash='56f1eeb35a6b4bc1', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with temporal inconsistency', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_005', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00040612102020531893, final_state_hash='df8fce7443c4ab4f', gst_hash='965dda1c11e9f0f3', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with missing subject', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_006', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00044422794599086046, final_state_hash='a2180597254d7520', gst_hash='41b968419ffd304c', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with impossible competency claim', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_007', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004137519863434136, final_state_hash='f59861a76da4349a', gst_hash='f9a67f209d994b44', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with contradictory constraints', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_008', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0003903910401277244, final_state_hash='51a0f4e8dc98c554', gst_hash='dbf9808a5dad3d78', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with undefined operator', 'domain': 'general', 'intent': 'process', 'expected_domain': 'general', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='invalid_009', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00039410602767020464, final_state_hash='dba4aeeadbf0e873', gst_hash='cb9baaa7b953928c', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with empty context', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='invalid_010', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004871139535680413, final_state_hash='c704fb57717f71d6', gst_hash='f04e49f29dd4ed11', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with mixed modalities', 'domain': 'programming', 'intent': 'process', 'expected_domain': 'programming', 'expected_intent': 'process'})",
+      "BenchmarkMetrics(problem_id='gate_matter_001', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004300420405343175, final_state_hash='16aeffc5350cba9b', gst_hash='2f4c9c73be0d58e5', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with state continuity break', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_002', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00047194695798680186, final_state_hash='0ebb84ee75c57199', gst_hash='ab3dbeb9b2ddeb51', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with perspective shift', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_003', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004768599756062031, final_state_hash='a15b6430fa078f7a', gst_hash='06799ce2df3cae12', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with tense inconsistency', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_004', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00048746797256171703, final_state_hash='a44665ecf68f1851', gst_hash='d9e0d5241683aec3', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test nested self-reference', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_005', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004317440325394273, final_state_hash='d1145a0d06a7257d', gst_hash='faf2c57d43e38f59', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with competency escalation', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_006', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00046201201621443033, final_state_hash='eb33286a869004de', gst_hash='b047ab6c7507b082', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with domain drift', 'domain': 'programming', 'intent': 'test', 'expected_domain': 'programming', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_007', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004319429863244295, final_state_hash='22e491cc8921ce14', gst_hash='02d9dab2dd466599', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with actor substitution', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_008', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00044998101657256484, final_state_hash='001b5202ab18279e', gst_hash='75201808d5af8176', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with nested intentions', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_009', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.0004366859793663025, final_state_hash='f526dc2ab6dbb580', gst_hash='7cf4637e788be019', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with temporal paradox', 'domain': 'testing', 'intent': 'test', 'expected_domain': 'testing', 'expected_intent': 'test'})",
+      "BenchmarkMetrics(problem_id='gate_matter_010', config='C2', success=True, invalid_advancement=False, gate_evaluations=4, backtracks=0, transform_evaluations=1, runtime_seconds=0.00045863696141168475, final_state_hash='fc381ed62e1bf573', gst_hash='f176b4ee001d55b2', permit_issued=True, permit_violations=0, error=None, metadata={'description': 'Test with contradictory evidence', 'domain': 'testing', 'intent': 'evaluate', 'expected_domain': 'testing', 'expected_intent': 'evaluate'})"
+    ]
+  },
+  "analysis": {
+    "success_rate": {
+      "C0": 1.0,
+      "C1": 1.0,
+      "C2": 1.0
+    },
+    "invalid_advancements": {
+      "C0": 0,
+      "C1": 0,
+      "C2": 0
+    },
+    "gate_evaluations": {
+      "C0": 0,
+      "C2": 120,
+      "overhead": 120
+    },
+    "backtracks": {
+      "C2_total": 0
+    },
+    "runtime": {
+      "C0_total": 0.01276285684434697,
+      "C1_total": 0.011545506888069212,
+      "C2_total": 0.013101388001814485,
+      "overhead": 0.0003385311574675143
+    },
+    "per_problem": [
+      {
+        "problem_id": "simple_001",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0017443589749746025,
+        "c2_runtime": 0.0004490810097195208,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_002",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00041940901428461075,
+        "c2_runtime": 0.00045999500434845686,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_003",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003917849971912801,
+        "c2_runtime": 0.0004178489907644689,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_004",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00034401100128889084,
+        "c2_runtime": 0.00044502399396151304,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_005",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00040715403156355023,
+        "c2_runtime": 0.0004043920198455453,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_006",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003476249985396862,
+        "c2_runtime": 0.0004457239992916584,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_007",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00039287895197048783,
+        "c2_runtime": 0.0004082820378243923,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_008",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00038880499778315425,
+        "c2_runtime": 0.00044889800483360887,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_009",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003308189916424453,
+        "c2_runtime": 0.00039111898513510823,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "simple_010",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00044771499233320355,
+        "c2_runtime": 0.00043231999734416604,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_001",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00034009601222351193,
+        "c2_runtime": 0.00039857299998402596,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_002",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003594550071284175,
+        "c2_runtime": 0.00045544502791017294,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_003",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00036501599242910743,
+        "c2_runtime": 0.00041536102071404457,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_004",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00035922095412388444,
+        "c2_runtime": 0.00045629299711436033,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_005",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00038183300057426095,
+        "c2_runtime": 0.00040612102020531893,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_006",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00034531200071796775,
+        "c2_runtime": 0.00044422794599086046,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_007",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003477279678918421,
+        "c2_runtime": 0.0004137519863434136,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_008",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00033241702476516366,
+        "c2_runtime": 0.0003903910401277244,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_009",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00030682794749736786,
+        "c2_runtime": 0.00039410602767020464,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "invalid_010",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00041286100167781115,
+        "c2_runtime": 0.0004871139535680413,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_001",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00036566698690876365,
+        "c2_runtime": 0.0004300420405343175,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_002",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003802469582296908,
+        "c2_runtime": 0.00047194695798680186,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_003",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0004525050171650946,
+        "c2_runtime": 0.0004768599756062031,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_004",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00040288601303473115,
+        "c2_runtime": 0.00048746797256171703,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_005",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00042318098712712526,
+        "c2_runtime": 0.0004317440325394273,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_006",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003795800148509443,
+        "c2_runtime": 0.00046201201621443033,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_007",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0004287569900043309,
+        "c2_runtime": 0.0004319429863244295,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_008",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0003887970233336091,
+        "c2_runtime": 0.00044998101657256484,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_009",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.0004074979806318879,
+        "c2_runtime": 0.0004366859793663025,
+        "c2_backtracks": 0
+      },
+      {
+        "problem_id": "gate_matter_010",
+        "c0_success": true,
+        "c2_success": true,
+        "c0_gate_evals": 0,
+        "c2_gate_evals": 4,
+        "c0_runtime": 0.00036841101245954633,
+        "c2_runtime": 0.00045863696141168475,
+        "c2_backtracks": 0
+      }
+    ],
+    "conclusion": "MGate shows no change in success rate or invalid advancement for these problems. Overhead: 120 gate evaluations, 0.0003s runtime. This suggests the constraint stage already filters invalid transforms effectively, and MGate adds cost without benefit on well-constrained inputs."
+  },
+  "determinism": [
+    {
+      "problem_id": "simple_001",
+      "config": "C0",
+      "runs": 3,
+      "hashes": [
+        "e3944aabdb6e0ff6d565ee76018757dfe756268f19a9a0efd19c83b6f43bf717",
+        "e3944aabdb6e0ff6d565ee76018757dfe756268f19a9a0efd19c83b6f43bf717",
+        "e3944aabdb6e0ff6d565ee76018757dfe756268f19a9a0efd19c83b6f43bf717"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_001",
+      "config": "C1",
+      "runs": 3,
+      "hashes": [
+        "e3944aabdb6e0ff6d565ee76018757dfe756268f19a9a0efd19c83b6f43bf717",
+        "e3944aabdb6e0ff6d565ee76018757dfe756268f19a9a0efd19c83b6f43bf717",
+        "e3944aabdb6e0ff6d565ee76018757dfe756268f19a9a0efd19c83b6f43bf717"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_001",
+      "config": "C2",
+      "runs": 3,
+      "hashes": [
+        "9133868710f01df2cfa65e5b69b495838087b78b33de9c40052da13d7ff3b0f4",
+        "9133868710f01df2cfa65e5b69b495838087b78b33de9c40052da13d7ff3b0f4",
+        "9133868710f01df2cfa65e5b69b495838087b78b33de9c40052da13d7ff3b0f4"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_002",
+      "config": "C0",
+      "runs": 3,
+      "hashes": [
+        "14b039b819cf9e20cdc9228160e950a599a827c667da4f22b121e2682cd9300b",
+        "14b039b819cf9e20cdc9228160e950a599a827c667da4f22b121e2682cd9300b",
+        "14b039b819cf9e20cdc9228160e950a599a827c667da4f22b121e2682cd9300b"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_002",
+      "config": "C1",
+      "runs": 3,
+      "hashes": [
+        "14b039b819cf9e20cdc9228160e950a599a827c667da4f22b121e2682cd9300b",
+        "14b039b819cf9e20cdc9228160e950a599a827c667da4f22b121e2682cd9300b",
+        "14b039b819cf9e20cdc9228160e950a599a827c667da4f22b121e2682cd9300b"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_002",
+      "config": "C2",
+      "runs": 3,
+      "hashes": [
+        "82a4ca10f89fa2abd160c24b9e963984b7786bb062b2c4040a95c18fd8fa63fa",
+        "82a4ca10f89fa2abd160c24b9e963984b7786bb062b2c4040a95c18fd8fa63fa",
+        "82a4ca10f89fa2abd160c24b9e963984b7786bb062b2c4040a95c18fd8fa63fa"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_003",
+      "config": "C0",
+      "runs": 3,
+      "hashes": [
+        "f1c8f5e91419c7450dab9e10fee23cf78eedee624e6349c785300c8ffe624297",
+        "f1c8f5e91419c7450dab9e10fee23cf78eedee624e6349c785300c8ffe624297",
+        "f1c8f5e91419c7450dab9e10fee23cf78eedee624e6349c785300c8ffe624297"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_003",
+      "config": "C1",
+      "runs": 3,
+      "hashes": [
+        "f1c8f5e91419c7450dab9e10fee23cf78eedee624e6349c785300c8ffe624297",
+        "f1c8f5e91419c7450dab9e10fee23cf78eedee624e6349c785300c8ffe624297",
+        "f1c8f5e91419c7450dab9e10fee23cf78eedee624e6349c785300c8ffe624297"
+      ],
+      "deterministic": true
+    },
+    {
+      "problem_id": "simple_003",
+      "config": "C2",
+      "runs": 3,
+      "hashes": [
+        "5f902af8b9d6994a755a560b214352069ac7ff11d8613d3a57fc4528919f65cb",
+        "5f902af8b9d6994a755a560b214352069ac7ff11d8613d3a57fc4528919f65cb",
+        "5f902af8b9d6994a755a560b214352069ac7ff11d8613d3a57fc4528919f65cb"
+      ],
+      "deterministic": true
+    }
+  ]
+}

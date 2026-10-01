@@ -1,0 +1,90 @@
+================================================================================
+NYCH Symbolic Pipeline - Canonical Rule Set Engine
+================================================================================
+
+Example 1: Natural Language Input
+----------------------------------------
+Input: I want to build a test for the programming system using test driven development
+
+Packet ID: c0ff2c54ef71a7c9
+Source Type: natural_language
+Version: 1.0.0
+Symbols: ['💻', '⚙️', '🔨', '🧪']
+Operators: ['Test']
+Numeric Values: []
+Con. Skeletons: ['wnt', 'bld', 'tst', 'fr', 'th', 'prgrmng', 'systm', 'sng', 'tst', 'drvn', 'dvlpmnt']
+Gestalt Emoji: []
+
+Domain: programming
+Subject: unknown
+Intent: test
+Competency: intermediate
+Modality: LANGUAGE
+Perspective: Perspective.FIRST
+Tense: Tense.PRESENT
+Subdomains: ['web', 'mobile', 'cloud', 'desktop', 'systems']
+Specialties: ['frontend', 'backend', 'fullstack', 'embedded', 'security']
+Tools: ['compiler', 'interpreter', 'debugger', 'linter']
+
+Validation Valid: True
+Continuity Score: 1.0
+Closure State: closed
+Fast Path Used: True
+Anomaly Flags: []
+
+Evidence Events: 4
+  - ingest: 2026056a6824ca43
+  - transform: f308c89be47349a0
+  - validation: 56b8ab2fa2e6416c
+  - audit: b5f0f866d7771d9e
+
+Audit Unit ID: a824215f9e9a9d18
+G8SON Valid: True
+MG8 Container ID: mg8_c0ff2c54ef71a7c9
+
+MGate Execution:
+  Total rungs: 1
+  Successful rungs: 1
+  Backtrack count: 0
+  Action Permit ID: permit_000001
+  Action Permit State: ISSUED
+
+GST Serialization:
+  GST ID: c0ff2c54ef71a7c9
+  Domain: programming
+  Perspective: first
+  Tense: present
+  Competency: intermediate
+
+Example 2: Sensor Input
+----------------------------------------
+Device: sensor_demo_001
+Modality: VE
+Data: {'temperature': 22.5, 'humidity': 45.0, 'pressure': 1013.25, 'device_id': 'sensor_demo_001'}
+
+Packet ID: a527b087960b366d
+Domain: unknown
+Modality: VE
+Validation Valid: True
+Gestalt Emoji: ['🌡️', '💧', '📈']
+
+Example 3: Canonical Modality Operators
+----------------------------------------
+  VE: VE
+  VI: VI
+  AE: AE
+  AI: AI
+  KE: KE
+  KI: KI
+  SME: SME
+  TAS: TAS
+  MEN: MEN
+  IMG: IMG
+  REM: REM
+  LANGUAGE: LANGUAGE
+
+================================================================================
+Pipeline execution complete.
+================================================================================
+--- GST hash ---
+0892fbb3fc7b925761debf71f838eeb5a621e9a1e28ec90abae9c15e73cc857f
