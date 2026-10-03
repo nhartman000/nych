@@ -1,0 +1,43 @@
+BONIT/1.0
+NAME NYCH_ENCODING
+APPLIES_TO "nych.ork"
+
+# MODALITY_CANON names the single source for the epistemic-status axis
+# (OBS/MODEL/INTENT/ACT) and its anti-promotion invariants. This block
+# does not restate either -- it only names where they live. See
+# nych/epistemic.py's module docstring for why this axis is word-only and
+# kept separate from nych.types.Modality (the perceptual-channel axis,
+# already canonical and already emoji-mapped in nych/invariant.py).
+MODALITY_CANON {
+  SOURCE "nych/epistemic.py"
+  TYPE "EpistemicStatus"
+  INVARIANTS_REF "ANTI_PROMOTION_INVARIANTS"
+}
+
+AUTHORITY {
+  ACTOR nych_encoder ROLE="ingest,tag_roles,skeleton,protected_terms,tote_lookup,gst_export,ork_init"
+  ACTOR llm ROLE="gestalt_mapping,qson_commit"
+}
+
+WORKFLOW {
+  STEP 1 nych_encoder : INGEST_NATURAL_LANGUAGE
+  STEP 1 nych_encoder : TAG_ROLES
+  STEP 1 nych_encoder : SKELETON_DISAMBIGUATE
+  STEP 1 nych_encoder : DETECT_PROTECTED_TERMS
+  STEP 1 nych_encoder : LOOKUP_TOTE_LOOP
+  STEP 1 nych_encoder : EXPORT_GST_PRETEXT
+  STEP 1 nych_encoder : EMIT_INITIAL_ORK
+
+  STEP 2 nych_encoder -> llm : HANDOFF(ork, gst_pretext)
+  STEP 2 llm : ASSIGN_GESTALTS(needs_mapping)
+  STEP 2 llm : WRITE_GST(mappings, invariants)
+  STEP 2 llm : COMMIT_ORK_TO_QSON(timestamp_or_marker)
+  STEP 2 llm -> mg8_engine : HANDOFF(ork, gst)
+}
+
+VALIDATION {
+  REJECT IF GESTALT_ASSIGNED_TO_PROTECTED_TERM
+  REJECT IF GST_WRITTEN_WITHOUT_ORK_PRESENT
+  REJECT IF QSON_COMMIT_MISSING_AFTER_STEP_2
+  REVISE IF SKELETON_FALLBACK_AND_NO_DISAMBIGUATION_NOTE
+}
