@@ -61,17 +61,50 @@ IRREGULAR_VERBS = {
     "found": "find", "kept": "keep", "held": "hold", "left": "leave",
 }
 
+# Base-form verb lexicon for imperative and present-tense detection.
+# Imperative sentences ("Add caching", "Fix the build") are the dominant
+# shape of real commit messages, which the past-tense-only heuristic missed
+# entirely. A word matches as an action if:
+#   - it is at position 0 and is a base verb here (imperative), or
+#   - anywhere, it is a base verb here + "s"/"es" (present 3rd person), or
+#   - anywhere, it is the "-ing" form of a base verb here.
+# Kept as an explicit list -- same honesty bar as IRREGULAR_VERBS: nothing
+# outside it is guessed.
+BASE_VERBS = {
+    "add", "adjust", "allow", "avoid", "build", "bump", "cache", "change",
+    "check", "clean", "close", "configure", "correct", "create", "debug",
+    "decode", "delete", "deploy", "deprecate", "disable", "do", "document",
+    "drop", "enable", "encode", "ensure", "expose", "extract", "fix",
+    "format", "give", "go", "handle", "hide", "implement", "improve",
+    "install", "keep", "lint", "log", "make", "merge", "migrate", "move",
+    "open", "optimize", "parse", "prevent", "publish", "read", "refactor",
+    "release", "remove", "rename", "replace", "restart", "revert", "run",
+    "see", "send", "simplify", "split", "start", "stop", "support", "take",
+    "test", "update", "upgrade", "use", "validate", "verify", "write",
+}
 
-def _lemma_if_verblike(word: str) -> str | None:
-    """Returns a lemma if `word` looks like a past-tense/action verb,
-    else None. Handles a hyphenated or bare "re-" prefix ("re-ran",
-    "reran") by also checking the table with that prefix stripped."""
-    lower = word.lower()
+
+def _base_candidates(lower: str) -> list[str]:
+    """Expand a lowercased word with its "re-"/"re" prefix-stripped forms."""
     candidates = [lower]
     if lower.startswith("re-"):
         candidates.append(lower[3:])
-    elif lower.startswith("re") and lower[2:] in IRREGULAR_VERBS:
+    elif lower.startswith("re") and len(lower) > 2:
         candidates.append(lower[2:])
+    return candidates
+
+
+def _lemma_if_verblike(word: str, position: int = -1) -> str | None:
+    """Returns a lemma if `word` looks like an action verb, else None.
+
+    Recognizes past tense (irregular table + -ed/-ied heuristic),
+    imperatives at sentence start (position 0 against BASE_VERBS),
+    present 3rd person (-s/-es of a base verb), and progressive (-ing of a
+    base verb). Handles a hyphenated or bare "re-" prefix ("re-ran",
+    "reran", "re-run") by also checking with that prefix stripped.
+    """
+    lower = word.lower()
+    candidates = _base_candidates(lower)
 
     for candidate in candidates:
         if candidate in IRREGULAR_VERBS:
@@ -81,6 +114,22 @@ def _lemma_if_verblike(word: str) -> str | None:
         return lower[:-3] + "y"
     if lower.endswith("ed") and len(lower) > 3:
         return lower[:-2]
+
+    for candidate in candidates:
+        # Imperative / bare base form, only trusted at sentence start.
+        if position == 0 and candidate in BASE_VERBS:
+            return candidate
+        # Present 3rd person: "adds", "fixes".
+        for suffix in ("es", "s"):
+            if candidate.endswith(suffix) and candidate[:-len(suffix)] in BASE_VERBS:
+                return candidate[:-len(suffix)]
+        # Progressive: "adding", "running" (consonant doubling), "caching".
+        if candidate.endswith("ing") and len(candidate) > 4:
+            stem = candidate[:-3]
+            for form in (stem, stem[:-1] if stem and stem[-1] == stem[-2:-1] else None,
+                         stem + "e"):
+                if form and form in BASE_VERBS:
+                    return form
     return None
 
 
@@ -101,7 +150,7 @@ def tag_roles(sentence: str) -> dict:
 
     for i, core in enumerate(cores):
         if action is None:
-            lemma = _lemma_if_verblike(core)
+            lemma = _lemma_if_verblike(core, position=i)
             if lemma:
                 action = {"word": tokens[i], "position": i, "lemma": lemma}
         if enumerator is None and core.lower() in ENUMERATORS:
