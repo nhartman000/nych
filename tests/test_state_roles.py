@@ -57,6 +57,35 @@ class StateRoleTests(unittest.TestCase):
         self.assertEqual(result["object"]["start"], 2)
         self.assertEqual(result["object"]["word"], "modules")
 
+    def test_imperative_verb_at_sentence_start(self):
+        result = tag_roles("Add caching to the lookup layer")
+        self.assertEqual(result["action"]["word"], "Add")
+        self.assertEqual(result["action"]["lemma"], "add")
+
+    def test_imperative_fix(self):
+        result = tag_roles("Fix the broken build before the release")
+        self.assertEqual(result["action"]["lemma"], "fix")
+        self.assertEqual(result["tense"]["word"], "before")
+
+    def test_present_third_person_detected_mid_sentence(self):
+        result = tag_roles("the pipeline runs all suites after changes")
+        self.assertEqual(result["action"]["word"], "runs")
+        self.assertEqual(result["action"]["lemma"], "run")
+
+    def test_progressive_ing_form(self):
+        result = tag_roles("Adding retry logic to the client")
+        self.assertEqual(result["action"]["lemma"], "add")
+
+    def test_base_verb_mid_sentence_not_trusted(self):
+        # "test" mid-sentence is usually a noun ("test suites"); the base
+        # form is only trusted at position 0, so no action is forced here.
+        result = tag_roles("the test suite")
+        self.assertIsNone(result["action"])
+
+    def test_imperative_re_prefix(self):
+        result = tag_roles("Re-run both test suites after changes")
+        self.assertEqual(result["action"]["lemma"], "run")
+
     def test_cli_parse_outputs_valid_json(self):
         completed = subprocess.run(
             [sys.executable, "-m", "nych.cli", "parse",
