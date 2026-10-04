@@ -14,7 +14,8 @@ authors = [
 ]
 dependencies = [
     "matplotlib>=3.7",
-    "numpy>=1.24"
+    "numpy>=1.24",
+    "tcta-engine @ git+https://github.com/nhartman000/TCTA.git"
 ]
 
 [tool.setuptools]
