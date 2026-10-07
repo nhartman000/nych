@@ -319,6 +319,13 @@ Run the test suite with:
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
+## Diagrams
+
+- [Architecture overview](docs/images/nych-architecture-overview.png): dual input, constrained geometry and prediction stack, runtime
+- [Gestalt mapping pipeline](docs/images/nych-gestalt-mapping-pipeline.png): natural language to symbolic state
+- [Dual input transform](docs/images/nych-dual-input-transform.png)
+- [Dual input transform with MG8 / G8SON layers](docs/images/nych-dual-input-transform-mg8.png)
+
 ## Repository boundaries
 
 NYCH is used by other research/runtime work in this GitHub account, including MG8-related experiments. Those integrations should not redefine NYCH's own package semantics. Conversely, this small package should not be presented as implementing every higher-level MG8/TCTA concept.
