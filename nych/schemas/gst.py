@@ -1,8 +1,7 @@
 """
-GST Schema Adapter/Validator
-=============================
-GST should carry prior/current and internal/external state plus
-continuity semantics.
+Legacy NYCH state profile, not the dedicated canonical GST format.
+Historical to_canonical names normalize prior/current and internal/external
+state records only; they do not establish external format conformance.
 """
 
 from __future__ import annotations
@@ -13,7 +12,9 @@ from nych.exceptions import SchemaValidationError
 from nych.schemas import SchemaValidator
 
 
-# GST canonical schema definition
+PROFILE_ID = "nych.legacy.gst-state.v1"
+
+# Legacy NYCH profile definition
 _GST_SCHEMA = {
     "type": "object",
     "required": ["state"],
@@ -36,10 +37,10 @@ _GST_SCHEMA = {
 
 
 class GSTValidator(SchemaValidator):
-    """Validator for GST (General State Transform) format."""
+    """Validator for the legacy NYCH state profile only."""
     
     def validate(self, data: dict[str, Any]) -> bool:
-        """Validate GST data against canonical schema."""
+        """Validate the legacy NYCH GST profile only."""
         if not isinstance(data, dict):
             raise SchemaValidationError("GST data must be a dictionary")
         
@@ -56,7 +57,7 @@ class GSTValidator(SchemaValidator):
         return True
     
     def to_canonical(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Convert to canonical GST format."""
+        """Normalize the legacy NYCH profile in place; historical API name."""
         if "state" not in data:
             data["state"] = {}
         
@@ -73,12 +74,12 @@ class GSTValidator(SchemaValidator):
 
 
 def validate_gst(data: dict[str, Any]) -> bool:
-    """Validate GST data. Returns True if valid."""
+    """Validate legacy NYCH GST data. Returns True if valid."""
     validator = GSTValidator()
     return validator.validate(data)
 
 
 def to_canonical_gst(data: dict[str, Any]) -> dict[str, Any]:
-    """Convert data to canonical GST format."""
+    """Normalize the legacy NYCH profile in place; not a format migration."""
     validator = GSTValidator()
     return validator.to_canonical(data)

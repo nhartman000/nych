@@ -1,7 +1,8 @@
 """
 NYCH Schema Adapters/Validators
 ================================
-Canonical schema adapters and validators for QSON, GST, G8SON, and MG8.
+Legacy NYCH profile validators, not the dedicated canonical formats.
+Historical to_canonical method names normalize local records only.
 """
 
 from __future__ import annotations
@@ -19,5 +20,5 @@ class SchemaValidator:
         raise NotImplementedError
     
     def to_canonical(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Convert data to canonical form."""
+        """Normalize a legacy NYCH profile; historical method name."""
         raise NotImplementedError

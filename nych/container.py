@@ -1,9 +1,9 @@
 """
 NYCH MG8 Container Assembly Module
 ====================================
-MG8 should package references to orchestration, state, gates and evidence
-without redefining their normative schemas.
-G8SON represents gates/constraints applied to candidate transforms.
+Assembles the legacy NYCH MG8 container profile, not a canonical MG8 manifest.
+Embedded G8SON-shaped records are local evaluator results, not dedicated
+G8SON gate-condition files. Public names and serialized shapes are retained.
 """
 
 from __future__ import annotations
@@ -14,13 +14,13 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from nych.schemas.g8son import validate_g8son, to_canonical_g8son
-from nych.schemas.mg8 import validate_mg8, to_canonical_mg8
+from nych.schemas.mg8 import PROFILE_ID, validate_mg8, to_canonical_mg8
 from nych.types import NychContext, NychPacket, NychState, ValidationResult
 
 
 @dataclass(frozen=True)
 class MG8Container:
-    """MG8 container assembly."""
+    """Legacy NYCH MG8 container; not a dedicated MG8 resource manifest."""
     orchestration: dict[str, Any]
     state_refs: dict[str, Any]
     gates: list[dict[str, Any]]
@@ -32,7 +32,7 @@ class MG8Container:
 
 @dataclass(frozen=True)
 class G8SONGate:
-    """G8SON gate result."""
+    """Legacy NYCH evaluator result; not a G8SON condition declaration."""
     gate_id: str
     gate_type: str
     transform_id: str

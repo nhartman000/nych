@@ -1,8 +1,7 @@
 """
-QSON Schema Adapter/Validator
-==============================
-QSON should carry canonical execution/evidence events, actors, sequence
-and validation results.
+Legacy NYCH audit-event profile, not the dedicated canonical QSON format.
+Historical to_canonical names normalize this local events/actor/sequence/
+payload shape only; they do not establish external format conformance.
 """
 
 from __future__ import annotations
@@ -13,7 +12,9 @@ from nych.exceptions import SchemaValidationError
 from nych.schemas import SchemaValidator
 
 
-# QSON canonical schema definition
+PROFILE_ID = "nych.legacy.qson-audit.v1"
+
+# Legacy NYCH profile definition
 _QSON_SCHEMA = {
     "type": "object",
     "required": ["events"],
@@ -45,10 +46,10 @@ _QSON_SCHEMA = {
 
 
 class QSONValidator(SchemaValidator):
-    """Validator for QSON (Query/Evidence Stream Object Notation) format."""
+    """Validator for the legacy NYCH audit-event profile only."""
     
     def validate(self, data: dict[str, Any]) -> bool:
-        """Validate QSON data against canonical schema."""
+        """Validate the legacy NYCH QSON profile only."""
         if not isinstance(data, dict):
             raise SchemaValidationError("QSON data must be a dictionary")
         
@@ -76,7 +77,7 @@ class QSONValidator(SchemaValidator):
         return True
     
     def to_canonical(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Convert to canonical QSON format."""
+        """Normalize the legacy NYCH profile in place; historical API name."""
         if "events" not in data:
             data["events"] = []
         
@@ -88,12 +89,12 @@ class QSONValidator(SchemaValidator):
 
 
 def validate_qson(data: dict[str, Any]) -> bool:
-    """Validate QSON data. Returns True if valid."""
+    """Validate legacy NYCH QSON data. Returns True if valid."""
     validator = QSONValidator()
     return validator.validate(data)
 
 
 def to_canonical_qson(data: dict[str, Any]) -> dict[str, Any]:
-    """Convert data to canonical QSON format."""
+    """Normalize the legacy NYCH profile in place; not a format migration."""
     validator = QSONValidator()
     return validator.to_canonical(data)

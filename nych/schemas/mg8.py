@@ -1,8 +1,7 @@
 """
-MG8 Schema Adapter/Validator
-=============================
-MG8 should package references to orchestration, state, gates and evidence
-without redefining their normative schemas.
+Legacy NYCH MG8 container profile, not the dedicated canonical MG8 format.
+Historical to_canonical names normalize this local orchestration/state/gates/
+evidence shape only; they do not migrate to the resource-manifest format.
 """
 
 from __future__ import annotations
@@ -13,7 +12,9 @@ from nych.exceptions import SchemaValidationError
 from nych.schemas import SchemaValidator
 
 
-# MG8 canonical schema definition
+PROFILE_ID = "nych.legacy.mg8-container.v1"
+
+# Legacy NYCH profile definition
 _MG8_SCHEMA = {
     "type": "object",
     "required": ["orchestration", "state", "gates", "evidence"],
@@ -61,10 +62,10 @@ _MG8_SCHEMA = {
 
 
 class MG8Validator(SchemaValidator):
-    """Validator for MG8 (Meta-Gate 8) format."""
+    """Validator for the legacy NYCH MG8 container profile only."""
     
     def validate(self, data: dict[str, Any]) -> bool:
-        """Validate MG8 data against canonical schema."""
+        """Validate the legacy NYCH MG8 profile only."""
         if not isinstance(data, dict):
             raise SchemaValidationError("MG8 data must be a dictionary")
         
@@ -108,7 +109,7 @@ class MG8Validator(SchemaValidator):
         return True
     
     def to_canonical(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Convert to canonical MG8 format."""
+        """Normalize the legacy NYCH profile in place; historical API name."""
         required_sections = ["orchestration", "state", "gates", "evidence"]
         for section in required_sections:
             if section not in data:
@@ -123,12 +124,12 @@ class MG8Validator(SchemaValidator):
 
 
 def validate_mg8(data: dict[str, Any]) -> bool:
-    """Validate MG8 data. Returns True if valid."""
+    """Validate legacy NYCH MG8 data. Returns True if valid."""
     validator = MG8Validator()
     return validator.validate(data)
 
 
 def to_canonical_mg8(data: dict[str, Any]) -> dict[str, Any]:
-    """Convert data to canonical MG8 format."""
+    """Normalize the legacy NYCH profile in place; not a format migration."""
     validator = MG8Validator()
     return validator.to_canonical(data)
