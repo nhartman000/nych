@@ -1,7 +1,18 @@
 """Distribution regressions; run against the installed wheel in clean-install CI."""
 
 import importlib
-from importlib import resources
+from importlib import metadata, resources
+
+
+def test_distribution_python_floor_matches_required_tcta():
+    from packaging.specifiers import SpecifierSet
+
+    nych_python = SpecifierSet(metadata.metadata("nych")["Requires-Python"])
+    tcta_python = SpecifierSet(metadata.metadata("tcta-engine")["Requires-Python"])
+    assert "3.10" not in tcta_python
+    assert "3.10" not in nych_python
+    assert "3.11" in nych_python
+    assert "3.11" in tcta_python
 
 
 def test_schema_and_container_modules_are_importable():

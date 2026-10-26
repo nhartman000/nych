@@ -311,7 +311,8 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e .
 ```
 
-The canonical packaging metadata is `pyproject.toml`. Use `pip install .`
+The canonical packaging metadata is `pyproject.toml`. Python 3.11 or newer
+is required, matching the pinned TCTA dependency. Use `pip install .`
 for a regular installation; `-e` above is for source development.
 
 Run the complete test suite (both unittest- and pytest-style tests, including
