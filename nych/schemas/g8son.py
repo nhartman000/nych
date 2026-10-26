@@ -1,7 +1,8 @@
 """
-G8SON Schema Adapter/Validator
-===============================
-G8SON should represent gates/constraints applied to candidate transforms.
+Legacy NYCH gate-result profile, not the dedicated canonical G8SON format.
+These gate_type/transform_id/passed records describe evaluator results, not
+G8SON condition declarations. Historical to_canonical names normalize only
+this local profile and do not establish external format conformance.
 """
 
 from __future__ import annotations
@@ -12,7 +13,9 @@ from nych.exceptions import SchemaValidationError
 from nych.schemas import SchemaValidator
 
 
-# G8SON canonical schema definition
+PROFILE_ID = "nych.legacy.g8son-results.v1"
+
+# Legacy NYCH profile definition
 _G8SON_SCHEMA = {
     "type": "object",
     "required": ["gates"],
@@ -37,10 +40,10 @@ _G8SON_SCHEMA = {
 
 
 class G8SONValidator(SchemaValidator):
-    """Validator for G8SON (Gate/Constraint Stream Object Notation) format."""
+    """Validator for the legacy NYCH gate-result profile only."""
     
     def validate(self, data: dict[str, Any]) -> bool:
-        """Validate G8SON data against canonical schema."""
+        """Validate the legacy NYCH G8SON profile only."""
         if not isinstance(data, dict):
             raise SchemaValidationError("G8SON data must be a dictionary")
         
@@ -70,7 +73,7 @@ class G8SONValidator(SchemaValidator):
         return True
     
     def to_canonical(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Convert to canonical G8SON format."""
+        """Normalize the legacy NYCH profile in place; historical API name."""
         if "gates" not in data:
             data["gates"] = []
         
@@ -82,12 +85,12 @@ class G8SONValidator(SchemaValidator):
 
 
 def validate_g8son(data: dict[str, Any]) -> bool:
-    """Validate G8SON data. Returns True if valid."""
+    """Validate legacy NYCH G8SON data. Returns True if valid."""
     validator = G8SONValidator()
     return validator.validate(data)
 
 
 def to_canonical_g8son(data: dict[str, Any]) -> dict[str, Any]:
-    """Convert data to canonical G8SON format."""
+    """Normalize the legacy NYCH profile in place; not a format migration."""
     validator = G8SONValidator()
     return validator.to_canonical(data)

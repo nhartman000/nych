@@ -311,13 +311,24 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e .
 ```
 
-The canonical packaging metadata is `pyproject.toml`.
+The canonical packaging metadata is `pyproject.toml`. Python 3.11 or newer
+is required, matching the pinned TCTA dependency. Use `pip install .`
+for a regular installation; `-e` above is for source development.
 
-Run the test suite with:
+Run the complete test suite (both unittest- and pytest-style tests, including
+adversarial M-Gate tests) with:
 
 ```bash
-python -m unittest discover -s tests -p "test_*.py"
+python -m pip install pytest
+python -m pytest -q tests
 ```
+
+The `clean-wheel-install` CI job builds an sdist and then a wheel from that
+sdist, installs the wheel in a fresh virtual environment, and runs the complete
+suite from a temporary directory outside the checkout. Isolated Python imports
+and an installed-package path check prevent source-tree imports from hiding
+missing wheel modules. Packaging regressions also exercise the schema/plugin
+subpackages, seed registry, compressed dictionary, and dictionary license.
 
 ## Diagrams
 
@@ -327,6 +338,22 @@ python -m unittest discover -s tests -p "test_*.py"
 - [Dual input transform with MG8 / G8SON layers](docs/images/nych-dual-input-transform-mg8.png)
 
 ## Repository boundaries
+
+### Legacy NYCH container and audit profiles
+
+`nych.schemas` validates historical, local NYCH profiles, **not** the dedicated
+canonical MG8, G8SON, GST, or QSON formats. The inspectable `PROFILE_ID` constants
+identify `nych.legacy.mg8-container.v1`, `nych.legacy.g8son-results.v1`,
+`nych.legacy.gst-state.v1`, and `nych.legacy.qson-audit.v1`.
+
+`nych.container` assembles the legacy orchestration/state/gates/evidence shape;
+it is not a current MG8 resource manifest. Its `gate_type`, `transform_id`, and
+`passed` records are evaluator results, not G8SON gate-condition declarations.
+`nych.evidence` emits the legacy events/actor/sequence/payload audit profile,
+not dedicated canonical QSON records. Historical `to_canonical_*` public names
+are retained for compatibility: they normalize these local records in place,
+without migrating them or proving conformance to a dedicated format authority.
+This is separate from the `nych.gst_export` pretext handoff described above.
 
 NYCH is used by other research/runtime work in this GitHub account, including MG8-related experiments. Those integrations should not redefine NYCH's own package semantics. Conversely, this small package should not be presented as implementing every higher-level MG8/TCTA concept.
 

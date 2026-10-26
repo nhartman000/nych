@@ -1,7 +1,8 @@
 """
 NYCH Evidence Emission Module
 ==============================
-Emit canonical QSON-compatible events and update GST-compatible state.
+Emit legacy NYCH audit events and update local state; not canonical QSON.
+The historical event shape is retained without a silent format migration.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ import json
 from dataclasses import dataclass, field
 from typing import Any
 
+from nych.schemas.qson import PROFILE_ID
 from nych.types import (
     AuditUnit,
     NychContext,
@@ -23,7 +25,7 @@ from nych.types import (
 
 @dataclass(frozen=True)
 class EvidenceEvent:
-    """A single evidence event (QSON-compatible)."""
+    """A single legacy NYCH audit event (see PROFILE_ID)."""
     event_id: str
     event_type: str
     actor: str
@@ -51,7 +53,7 @@ def emit_evidence(
     sequence: int = 0,
 ) -> list[EvidenceEvent]:
     """
-    Emit canonical QSON-compatible evidence events.
+    Emit legacy NYCH audit events, not dedicated canonical QSON records.
     
     Args:
         result: The complete pipeline result.

@@ -7,7 +7,7 @@ name = "nych"
 version = "0.2.0"
 description = "NYCH deterministic symbolic language and visualization substrate"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [
     { name = "Nicholas Hartman" }
@@ -15,11 +15,11 @@ authors = [
 dependencies = [
     "matplotlib>=3.7",
     "numpy>=1.24",
-    "tcta-engine @ git+https://github.com/nhartman000/TCTA.git"
+    "tcta-engine @ git+https://github.com/nhartman000/TCTA.git@f2882c131e3e220d1cf1c9b7448625aabd51a85f"
 ]
 
-[tool.setuptools]
-packages = ["nych"]
+[tool.setuptools.packages.find]
+include = ["nych", "nych.*"]
 
 [tool.setuptools.package-data]
 nych = ["data/*.json", "data/*.gz", "data/*.txt"]

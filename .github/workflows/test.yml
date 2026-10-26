@@ -23,3 +23,33 @@ jobs:
         run: python -m pytest tests/test_benchmark.py tests/test_pipeline.py tests/test_schemas.py tests/test_types.py
       - name: Smoke-test CLI inspection
         run: nych inspect
+
+  clean-wheel-install:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install build
+          python -m build
+      - name: Install wheel and test outside checkout
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python -m venv "$RUNNER_TEMP/nych-wheel-env"
+          python_bin="$RUNNER_TEMP/nych-wheel-env/bin/python"
+          "$python_bin" -m pip install "$GITHUB_WORKSPACE"/dist/*.whl pytest
+          "$python_bin" -m pip check
+          test_dir=$(mktemp -d "$RUNNER_TEMP/nych-installed-tests.XXXXXX")
+          cp -R tests "$test_dir/tests"
+          cd "$test_dir"
+          # -I ignores PYTHONPATH and the checkout; reject editable/source imports.
+          "$python_bin" -I -c 'import pathlib, sys, nych; p = pathlib.Path(nych.__file__).resolve(); print(p); assert p.is_relative_to(pathlib.Path(sys.prefix).resolve())'
+          "$python_bin" -I -m pytest --import-mode=importlib -q tests
+          "$RUNNER_TEMP/nych-wheel-env/bin/nych" inspect
